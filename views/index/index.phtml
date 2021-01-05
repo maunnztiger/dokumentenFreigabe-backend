@@ -1,1 +1,25 @@
-<a href="./index/formular"><?php echo $this->vars['text'] ?></a>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="expires" content="0"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="./css/style.css"/>
+  </head>
+  <body>
+  	<div id="root" name="index.phtml">
+    <div id="dom-target" style="display: none">
+        <?php
+          if (!empty($this->vars['text'])) {
+            echo json_encode($this->vars['text']);
+          }
+        ?>
+    </div>
+   
+    <script src="./js/script.js"></script>
+  </body>
+</html>
+
+

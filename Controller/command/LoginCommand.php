@@ -13,6 +13,7 @@ class LoginCommand extends Command
         $user = $context->get('username');
         $pass = $context->get('password');
         $manager = new Auth($user, $pass);
+        $manager->login();
         $permission = $manager->getUserGroup($pass);
         
         if (is_null($permission)) {
