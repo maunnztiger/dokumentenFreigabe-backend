@@ -1,6 +1,6 @@
 <?php
 
-namespace ISPComplaintsCRM\Model;
+namespace schoolyard\Model;
 
 use PDO;
 
@@ -14,7 +14,7 @@ abstract class Db
 
         if (!isset(self::$instance)) {
             try {
-                self::$instance = new PDO('mysql:host=localhost;dbname=complaint_crm', 'root', '',
+                self::$instance = new PDO('mysql:host=localhost;dbname=schoolyard', 'root', '',
                     array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
 
                 self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -1,8 +1,8 @@
 <?php
 
-namespace ISPComplaintsCRM\Library;
+namespace schoolyard\Library;
 
-use ISPComplaintsCRM\Library\NotFoundException;
+use schoolyard\Library\NotFoundException;
 
 require 'NotFoundException.php';
 

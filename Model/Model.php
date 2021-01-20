@@ -3,9 +3,9 @@
  * Model Class
  */
 
-namespace ISPComplaintsCRM\Model;
+namespace schoolyard\Model;
 
-use ISPComplaintsCRM\Model\Db;
+use schoolyard\Model\Db;
 use PDO;
 
 @define(SQL_COMMAND_SELECT, 'SELECT');
@@ -660,7 +660,7 @@ class Model extends Db
 
                 if (is_array($parameter)) {
                     $total_paramter = count($parameter);
-                    for ($i = 0; $i <= $total_paramter; $i++) {
+                    for ($i = 0; $i < $total_paramter; $i++) {
 
                         if (is_int($value[$i])) {
 

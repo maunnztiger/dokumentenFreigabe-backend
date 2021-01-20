@@ -1,5 +1,5 @@
 <?php
-namespace ISPComplaintsCRM\Library;
+namespace schoolyard\Library;
 
 class CommandNotFoundException extends \Exception
 {

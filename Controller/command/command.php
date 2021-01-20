@@ -1,5 +1,5 @@
 <?php
-namespace ISPComplaintsCRM\Controller\command;
+namespace schoolyard\Controller\command;
 
 abstract class Command {
     abstract public function execute(CommandContext $context):bool;

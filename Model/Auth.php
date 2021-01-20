@@ -1,11 +1,11 @@
 <?php
 
-namespace ISPComplaintsCRM\Model;
+namespace schoolyard\Model;
 
-use ISPComplaintsCRM\Model\Db;
-use ISPComplaintsCRM\Model\Model;
-use ISPComplaintsCRM\Model\MysqlSessionHandler;
-use ISPComplaintsCRM\Model\Session;
+use schoolyard\Model\Db;
+use schoolyard\Model\Model;
+use schoolyard\Model\MysqlSessionHandler;
+use schoolyard\Model\Session;
 
 class Auth extends Model
 {
@@ -22,7 +22,7 @@ class Auth extends Model
         $this->tableNames = array('user');
         $this->db = Db::getInstance();
         $this->session = new Session();
-        $this->redirect = 'http://localhost/ISPComplaintsCRM/';
+        $this->redirect = 'http://localhost/schoolyard/';
         $this->sessionHandler = new MysqlSessionHandler();
         $this->user = $user;
         $this->pass = $pass;

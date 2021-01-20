@@ -10,7 +10,7 @@
 spl_autoload_register(function ($className) {
 
     //project specific namespace prefix
-    $prefix = 'ISPComplaintsCRM\\';
+    $prefix = 'schoolyard\\';
     $baseDir = __DIR__ . '/';
     $len = strlen($prefix);
 

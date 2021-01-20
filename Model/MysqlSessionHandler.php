@@ -1,9 +1,9 @@
 <?php
-namespace ISPComplaintsCRM\Model;
+namespace schoolyard\Model;
 
-use ISPComplaintsCRM\Model\Db;
-use ISPComplaintsCRM\Model\Model;
-use ISPComplaintsCRM\Model\Session;
+use schoolyard\Model\Db;
+use schoolyard\Model\Model;
+use schoolyard\Model\Session;
 use PDO;
 
 class MysqlSessionHandler extends Model

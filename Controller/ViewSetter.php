@@ -1,7 +1,7 @@
 <?php
-namespace ISPComplaintsCRM\Controller;
+namespace schoolyard\Controller;
 
 interface ViewSetter
 {
-    public function setView(\ISPComplaintsCRM\Library\View $view);
+    public function setView(\schoolyard\Library\View $view);
 }

@@ -1,9 +1,9 @@
 <?php
-namespace ISPComplaintsCRM\Controller\command;
+namespace schoolyard\Controller\command;
 
-use ISPComplaintsCRM\Controller\command\Command;
-use ISPComplaintsCRM\Library\NotFoundException;
-use ISPComplaintsCRM\Model\Auth;
+use schoolyard\Controller\command\Command;
+use schoolyard\Library\NotFoundException;
+use schoolyard\Model\Auth;
 
 class LoginCommand extends Command
 {

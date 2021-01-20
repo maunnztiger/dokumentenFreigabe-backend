@@ -1,7 +1,7 @@
 <?php
-namespace ISPComplaintsCRM\Controller\command;
+namespace schoolyard\Controller\command;
 
-use ISPComplaintsCRM\Library\CommandNotFoundException;
+use schoolyard\Library\CommandNotFoundException;
 
 require_once 'autoload.php';
 

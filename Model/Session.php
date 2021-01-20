@@ -1,5 +1,5 @@
 <?php
-namespace ISPComplaintsCRM\Model;
+namespace schoolyard\Model;
 
 class Session
 {

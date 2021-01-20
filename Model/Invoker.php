@@ -1,9 +1,9 @@
 <?php
 
-namespace ISPComplaintsCRM\Model;
+namespace schoolyard\Model;
 
-use ISPComplaintsCRM\Controller\command\CommandContext;
-use ISPComplaintsCRM\Controller\command\CommandFactory;
+use schoolyard\Controller\command\CommandContext;
+use schoolyard\Controller\command\CommandFactory;
 
 class Invoker extends \Exception
 {

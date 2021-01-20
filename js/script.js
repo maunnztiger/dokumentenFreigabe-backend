@@ -8,6 +8,8 @@ class Model {
       var div = document.getElementById("dom-target");
       console.log(div.textContent);
       var data = JSON.parse(div.textContent);
+      var imgPath = "./images/schoolyard.jpg";
+      data.push(imgPath);
       console.log(data);
       return data;
     }
@@ -18,10 +20,15 @@ class View {
     this.app = this.getElement('#root')
 
     // The title of the app
-    this.title = this.createElement('h1')
-    this.title.textContent = 'Startseite'
+    this.div1 = this.createElement('div');
+    this.title = this.createElement('h2');
+    this.title.style.position = 'relative';
+    this.title.textContent = 'Schoolyard';
+    this.div1.style.float = 'left';
+    this.div1.append(this.title);
     this.list = this.createElement('ul', 'list')
-    this.app.append(this.title, this.list);
+    this.list.append(this.div1);
+    this.app.append(this.list);
   }
   // Create an element with an optional CSS class
   createElement(tag, className) {
@@ -48,7 +55,8 @@ class View {
     } else {
       data.forEach(value => {
         const li = this.createElement('li');
-       
+        li.style.width = '40%';
+        li.style.float = 'right';
         if(value.endsWith('jpg')){
         
           console.log("true "+value);
@@ -58,19 +66,23 @@ class View {
           img.style.display = 'flex';
           img.style.felxDirection = 'column';
           img.style.margin = '2,5%';
-          img.style.padding = '2%';
-          img.style.width = '20%';
+          img.style.padding = '0%';
+          img.style.width = '100%';
           
-          this.videoList.append(img);
+          this.list.append(img);
         } 
       
          if(value.endsWith('jpg') == false){
+          this.div2 = this.createElement('div');
+          this.div2.style.width = '40%';
+          this.div2.style.float = 'right';
           const span = this.createElement('span');
           span.textContent = value;
-          li.style.float = 'left';         
-          li.style.width = '60%';
+          
           li.append(span);        
-          this.list.append(li); 
+          this.div2.append(li);
+          this.list.append(this.div2);
+
         }
       })
     }
@@ -107,34 +119,11 @@ class View {
     login.addEventListener('click', event => {
       event.preventDefault();
       setTimeout(function(){
-        document.location.href = "http://localhost/ISPComplaintsCRM/index/formular"
+        document.location.href = "http://localhost/schoolyard/index/formular"
       },500);
     })
 
-    const userList = document.getElementsByClassName('span_1')[0];
-    userList.addEventListener('click', event => {
-      event.preventDefault();
-      setTimeout(function(){
-        document.location.href = "http://localhost/ISPComplaintsCRM/index/createComplaint";
-      },500);
-    });
-
-    /*const videolist = document.getElementsByClassName('span_2')[0];
-    videolist.addEventListener('click', event => {
-      event.preventDefault();
-      setTimeout(function(){
-        document.location.href = "listVideoNames";
-      },500);
-    });
-    
-    const logout =  document.getElementsByClassName('span_3')[0];
-    logout.addEventListener('click', event => {
-      event.preventDefault();
-      console.log('delete fired '+ this.name);
-      setTimeout(function(){
-            document.location.href = "http://localhost/contentFreigabe/index/logout";
-          },500);
-     });*/
+   
   }, false);
 }
 
@@ -169,38 +158,16 @@ if(!cmenu || cmenu === null) return true;
   this.div.setAttribute("id", "context");
 
   const ul = this.createElement('ul');
-  const li_0 = this.createElement('li');
+  const li = this.createElement('li');
   const span_0 = this.createElement('span', 'span_0');
   span_0.textContent= 'Login';
-  li_0.append(span_0);
-  li_0.style.margin = 0;
-  li_0.style.background = '#fff2df';
-  li_0.style.borderBottom = '1px solid #dd0074';
+  li.append(span_0);
+  li.style.margin = 0;
+  li.style.background = '#fff2df';
+  li.style.borderBottom = '1px solid #dd0074';
 
-
-  const li_1 = this.createElement('li');
-  const span_1 = this.createElement('span', 'span_1');
-  span_1.textContent= 'Create Complaint';
-  li_1.append(span_1);
-  li_1.style.margin = 0;
-  li_1.style.background = '#fff2df';
-  li_1.style.borderBottom = '1px solid #dd0074';
-
-  /*const li_2 = this.createElement('li');
-  const span_2 = this.createElement('span', 'span_2');
-  span_2.textContent= 'Videos';
-  li_2.append(span_2);
-  li_2.style.margin = 0;
-  li_2.style.background = '#fff2df';
-  li_2.style.borderBottom = '1px solid #dd0074';
-
-  const li_3 = this.createElement('li');
-  const span_3 = this.createElement('span', 'span_3');
-  span_3.textContent= 'Abmelden';
-  li_3.style.background = '#fff2df';
-  li_3.append(span_3);*/
   
-  ul.append(li_0, li_1);
+  ul.append(li);
   this.div.append(ul);
   
 

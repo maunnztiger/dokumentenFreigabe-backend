@@ -9,7 +9,7 @@ $urlparts = explode('/', $url);
 //build the controller class
 
 $controllerName = (isset($urlparts[0]) && $urlparts[0] ? $urlparts[0] : 'index');
-$controllerClassName = '\\ISPComplaintsCRM\\Controller\\' . ucfirst($controllerName) . 'Controller';
+$controllerClassName = '\\schoolyard\\Controller\\' . ucfirst($controllerName) . 'Controller';
 
 //build the action method
 
@@ -19,22 +19,22 @@ $actionMethodName = $actionName . 'Action';
 try {
     if (!class_exists($controllerClassName)) {
 
-        throw new \ISPComplaintsCRM\Library\NotFoundException();
+        throw new \schoolyard\Library\NotFoundException();
 
     }
 
     $controller = new $controllerClassName();
 
-    if (!$controller instanceof \ISPComplaintsCRM\Controller\ViewSetter || !method_exists($controller, $actionMethodName)) {
-        throw new \ISPComplaintsCRM\Library\NotFoundException();
+    if (!$controller instanceof \schoolyard\Controller\ViewSetter || !method_exists($controller, $actionMethodName)) {
+        throw new \schoolyard\Library\NotFoundException();
     }
 
-    $view = new \ISPComplaintsCRM\Library\View(__DIR__ . DIRECTORY_SEPARATOR . 'views', $controllerName, $actionName);
+    $view = new \schoolyard\Library\View(__DIR__ . DIRECTORY_SEPARATOR . 'views', $controllerName, $actionName);
     $controller->setView($view);
     $controller->$actionMethodName();
     $view->render();
 
-} catch (\ISPComplaintsCRM\Library\NotFoundException $e) {
+} catch (\schoolyard\Library\NotFoundException $e) {
     http_response_code(404);
     echo 'Page not found: ' . $controllerClassName . '::' . $actionMethodName;
 } catch (\Exception $e) {
