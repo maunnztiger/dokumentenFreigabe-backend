@@ -17,17 +17,18 @@ class Admin
   }
   
   public function getUserParams(){
-    $result = $this->model->select(array(
-      'user_id',
-      'name',
-      'groupname',
-      'dep_name',
-    ))->from(array(
-              'user',
-              'usergroup',
-              'department'))
-    ->where('usergroup_id', 'usergroup_id_fk')
-    ->where('department_id','department_id_frk')
+    $result = $this->model->select(
+        array(
+            'user_id',
+            'name',
+            'groupname'
+            )
+    )->from(
+        array(
+            'user',
+            'usergroup',
+            )
+    )->where('usergroup_id', 'usergroup_id_fk')
     ->executeQuery()->as_array();
     
     return $result;
@@ -35,147 +36,111 @@ class Admin
 
   public function getUser($value){
 
-    $result = $this->model->select(array(
-      'user_id',
-      'name',
-      'groupname',
-      'dep_name',
-    ))->from(array(
-      'user',
-      'usergroup',
-      'department'))
-  ->where('usergroup_id', 'usergroup_id_fk')
-  ->where('department_id','department_id_frk')
+    $result = $this->model->select(
+        array(
+            'user_id',
+            'name',
+            'groupname',
+            )
+    )->from(
+        array(
+            'user',
+            'usergroup',
+            )
+    )->where('usergroup_id', 'usergroup_id_fk')
   ->where('name', ':name')
   ->executeQuery(':name', $value)->as_object();
 
-return $result;
+  return $result;
   }
 
-  public function updateUser($group, $department, $id){
+  public function updateUser($group, $id){
     $groupID = $this->getGroupID($group);
-    $deptID = $this->getDepartmentID($department);
     
     
-$model = new Model();
+    
+    $model = new Model();
     $model->update('user')->set(
-      array(
-        'usergroup_id_fk',
-        'department_id_frk'
-        ),
-      array(
-        ':group_id',
-        ':dept_id'
-      ))->where('user_id', ':user_id')
-      ->executeQuery(
         array(
-        ':group_id',
-        ':dept_id',
-        ':user_id'
-        ), array(
-        $groupID->usergroup_id,
-        $deptID->department_id,
-        $id
-      ));
-      
-      $model = new Model();
-      
-      return $user = $model->select(
-        array('user_id',
-              'name',
-              'groupname',
-              'dep_name',
-              )
+            'usergroup_id_fk',
+            ),
+        array(
+            ':group_id',
+            )
+    )->where('user_id', ':user_id')
+    ->executeQuery(
+        array(
+            ':group_id',
+            ':user_id'
+            ), 
+        array(
+            $groupID->usergroup_id,
+            $id
+            )
+    );
+    $model = new Model();
+    return $user = $model->select(
+        array(
+            'user_id',
+            'name',
+            'groupname',
+            )
       )->from(
         array(
-              'user',
-              'usergroup',
-              'department'
-              )
+            'user',
+            'usergroup',
+            )
       )->where('usergroup_id', 'usergroup_id_fk')
-      ->where('department_id','department_id_frk')
-      ->where('user_id', ':user_id')
-      ->executeQuery(':user_id', $id)->as_array();
+    ->where('user_id', ':user_id')
+    ->executeQuery(':user_id', $id)->as_array();
     }
 
-  public function saveUserData($group, $department, $username, $password){
+  public function saveUserData($group, $username, $password){
     $groupID = $this->getGroupID($group)->usergroup_id;
     
-    $deptID = !empty($department) ? $this->getDepartmentID($department)->department_id : null ;
+    
     $hash = password_hash($password, PASSWORD_DEFAULT);
     
-    if(!is_null($deptID)){
       $model = new Model(); 
       $model->insert_into('user')->set(
-        array(
-          'name',
-          'password',
-          'usergroup_id_fk',
-          'department_id_frk'
-          ),
-        array(
-          ':name',
-          ':password',
-          ':group_id',
-          ':dept_id'
-        ))->where('user_id', ':user_id')
+          array(
+              'name',
+              'password',
+              'usergroup_id_fk',
+              ),
+          array(
+              ':name',
+              ':password',
+              ':group_id',
+            )
+        )->where('user_id', ':user_id')
         ->executeQuery(
           array(
-          ':name',
-          ':password',
-          ':group_id',
-          ':dept_id'
-          ), array(
-          $username,
-          $hash,  
-          $groupID,
-          $deptID,
-        ));
-    } else {
-      $model = new Model(); 
-      $model->insert_into('user')->set(
-        array(
-          'name',
-          'password',
-          'usergroup_id_fk',
-        
-          ),
-        array(
-          ':name',
-          ':password',
-          ':group_id',
-        
-        ))->where('user_id', ':user_id')
-        ->executeQuery(
+              ':name',
+              ':password',
+              ':group_id',
+              ), 
           array(
-          ':name',
-          ':password',
-          ':group_id',
-         
-          ), array(
-          $username,
-          $hash,  
-          $groupID,
-        
-        ));
-    }
+              $username,
+              $hash,  
+              $groupID,
+              ) 
+        );
+    
     
       $model = new Model();
-      
       return $user = $model->select(
-        array('user_id',
+          array(
+              'user_id',
               'name',
               'groupname',
-              'dep_name',
               )
       )->from(
-        array(
+          array(
               'user',
               'usergroup',
-              'department'
               )
       )->where('usergroup_id', 'usergroup_id_fk')
-      ->where('department_id','department_id_frk')
       ->where('name', ':name')
       ->executeQuery(':name', $username)->as_array();
           
@@ -188,13 +153,6 @@ $model = new Model();
     ->executeQuery(':groupname', $group)->as_object();
   }
   
-  private function getDepartmentID($department){
-    $model = new Model();
-    return $dept_id = $model->select('department_id')->from('department')
-    ->where('dep_name', ':dep_name')
-    ->executeQuery(':dep_name', $department)->as_object();
-  }
-
   public function deleteUserData($name){
     $userID = $this->getUser($name)->user_id;
     $model = new Model();
