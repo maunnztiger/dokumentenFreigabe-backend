@@ -1,9 +1,9 @@
 <?php
-namespace schoolyard\Controller\command;
+namespace dokumentenFreigabe\Controller\command;
 
-use schoolyard\Controller\command\Command;
-use schoolyard\Library\NotFoundException;
-use schoolyard\Model\Auth;
+use dokumentenFreigabe\Controller\command\Command;
+use dokumentenFreigabe\Library\NotFoundException;
+use dokumentenFreigabe\Model\Auth;
 
 class LogoutCommand extends Command
 {

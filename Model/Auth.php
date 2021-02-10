@@ -1,11 +1,11 @@
 <?php
 
-namespace schoolyard\Model;
+namespace dokumentenFreigabe\Model;
 
-use schoolyard\Model\Db;
-use schoolyard\Model\Model;
-use schoolyard\Model\MysqlSessionHandler;
-use schoolyard\Model\Session;
+use dokumentenFreigabe\Model\Db;
+use dokumentenFreigabe\Model\Model;
+use dokumentenFreigabe\Model\MysqlSessionHandler;
+use dokumentenFreigabe\Model\Session;
 
 class Auth extends Model
 {
@@ -22,7 +22,7 @@ class Auth extends Model
         $this->tableNames = array('user');
         $this->db = Db::getInstance();
         $this->session = new Session();
-        $this->redirect = 'http://localhost/schoolyard/';
+        $this->redirect = 'http://localhost/dokumentenFreigabe/';
         $this->sessionHandler = new MysqlSessionHandler();
         $this->user = $user;
         $this->pass = $pass;
@@ -45,11 +45,10 @@ class Auth extends Model
             $password = $model->select('password')->from($this->tableNames)
                 ->where('name', ':name')
                 ->executeQuery(':name', $this->user)->as_object()->password;
-            //var_dump($password);
-
+            
+           
             if (password_verify($this->pass, $password)) {
-                //$this->speichereSession($user, $password);
-                echo 'Ihr Login war erfolgreich';
+                             
                 $this->saveSession($password);
             }
         }
@@ -82,11 +81,11 @@ class Auth extends Model
         $passwort = $this->session->getSessionName('password');
 
         if ($passwort !== $hashKey) {
-            echo 'logout';
+           
             $this->logout(true);
 
         }
-        echo 'Auth::validateAuth()';
+      
     }
 
     /*
@@ -122,7 +121,7 @@ class Auth extends Model
             ->where('user_id', ':userId')
             ->executeQuery(':userId', $this->userId)->as_object();
 
-        //var_dump($result);
+    
         return $result;
     }
 

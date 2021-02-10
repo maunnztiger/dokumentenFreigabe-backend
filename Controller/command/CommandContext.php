@@ -1,5 +1,5 @@
 <?php
-namespace schoolyard\Controller\command;
+namespace dokumentenFreigabe\Controller\command;
 
 class CommandContext
 {

@@ -3,9 +3,9 @@
  * Model Class
  */
 
-namespace schoolyard\Model;
+namespace dokumentenFreigabe\Model;
 
-use schoolyard\Model\Db;
+use dokumentenFreigabe\Model\Db;
 use PDO;
 
 @define(SQL_COMMAND_SELECT, 'SELECT');

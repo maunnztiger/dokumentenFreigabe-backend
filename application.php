@@ -1,6 +1,7 @@
 <?php
 
-namespace schoolyard;
+namespace dokumentenFreigabe;
+use dokumentenFreigabe\Library\NotFoundException;
 
 class Application
 {
@@ -16,12 +17,25 @@ class Application
         $class = $baseDir . str_replace('\\', DIRECTORY_SEPARATOR, UCFirst(strtolower($className)));
 
         if (!class_exists($class)) {
-            throw new CommandNotFoundException("no $class class located");
+            throw new NotFoundException("no $class class located");
         }
 
         $cmd = new $class;
 
         return $cmd;
 
+    }
+
+    public static function getController(string $className){
+
+        if (preg_match('/\W/', $className)) {
+            throw new Exception("illegal character found");
+        }
+
+        $baseDir = __NAMESPACE__ . '\\Controller\\';
+        $class = $baseDir. str_replace('\\', DIRECTORY_SEPARATOR, ucfirst($className));
+        $cmd = new $class;
+
+        return $cmd;
     }
 }

@@ -1,9 +1,9 @@
 <?php
-namespace schoolyard\Controller\command;
+namespace dokumentenFreigabe\Controller\command;
 
-use schoolyard\Controller\command\Command;
-use schoolyard\Library\NotFoundException;
-use schoolyard\Model\Auth;
+use dokumentenFreigabe\Controller\command\Command;
+use dokumentenFreigabe\Library\NotFoundException;
+use dokumentenFreigabe\Model\Auth;
 
 class LoginCommand extends Command
 {
@@ -14,14 +14,14 @@ class LoginCommand extends Command
         $pass = $context->get('password');
         $manager = new Auth($user, $pass);
         $manager->login();
-        $permission = $manager->getUserGroup($pass);
+        $permission = $manager->getUserGroup($pass)->groupname;
         
         if (is_null($permission)) {
             throw new NotFoundException("Licence not found");
             return false;
         }
 
-        $context->addparam('permission', $permission->groupname);
+        $context->addparam('permission', $permission);
         return true;
     }
 }

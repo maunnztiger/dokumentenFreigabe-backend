@@ -1,91 +1,64 @@
 <?php
-namespace schoolyard\Controller;
+namespace dokumentenFreigabe\Controller;
 
-use schoolyard\Controller\ViewSetter;
-use schoolyard\Application;
+use dokumentenFreigabe\Controller\ViewSetter;
+use dokumentenFreigabe\Application;
+use dokumentenFreigabe\Model\Registry;
 
-class IndexController implements ViewSetter
+class IndexController 
 {
-    protected $view;
-    private $session;
+ 
+    private     $session;
+    private     $dataObj; 
 
     public function __construct(){
         $this->session = Application::getModel('Session');
     }
 
-    public function setView(\schoolyard\Library\View $view)
-    {
-        $this->view = $view;
-    }
-
-   
-
     public function indexAction()
     {
-        $this->view->setVars([
-            'text' => ['Menu'],
-        ]);
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+            echo json_encode(['Menu']);
+        }
     }
 
     public function formularAction()
     {
-        $this->view->setVars([
-            'text' => 'Login',
-        ]);
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+            echo json_encode(['Login']);
+        }
     }
 
     public function dispatchViewsAction()
     {
 
-        if (isset($_POST['user']) && isset($_POST['password'])) {
-           
+        if (isset($_POST['user']) && isset($_POST['password']) &&
+            $_SERVER['REQUEST_METHOD'] == 'POST') {
+          
             $invoker = Application::getModel('Invoker');
             $context = $invoker->getContext();
             $context->addParam('action', 'login');
             $context->addParam('username', $_POST['user']);
             $context->addParam('password', $_POST['password']);
-
             $invoker->process();
-            $this->session->setSessionName('permission', $context->get('permission'));
             
-            switch($this->session->getSessionName('permission')){    
-                case 'Admin':
-                    $context->addParam('action', 'dispatchAdminView');
-                    $invoker->process();
-                break;
-                case 'Secretary':
-                    $context->addParam('action', 'dispatchSecretaryView');
-                    $invoker->process();
-                break;
-                case 'Teacher':
-                    $context->addParam('action', 'dispatchTeacherView');
-                    $invoker->process();
-                break;
-                default:  $this->view->setVars(['user' => 'No licence returned: ' . 'User: ' . $_POST['user'] . ',' . 'Password:' . $_POST['password']]);
-                break;
-            }
+            $this->dataObj = Application::getModel('Registry');
+            $this->session->setSessionName('dataObj', $this->dataObj);
+            $this->dataObj->setParam('permission', $context->get('permission'));
+            echo json_encode(strtolower($context->get('permission')));
         }
     }
 
     public function logoutAction()
     {
-
-        //$class = 'ISPComplaintsCRM\\Model\\Invoker';
         $invoker = Application::getModel('Invoker');
         $context = $invoker->getContext();
         $context->addParam('action', 'logout');
         $invoker->process();
 
-        $this->view->setVars([
-            'text' => $context->get('logout'),
-        ]);
+       
     }
 
-    public function administrationOverviewAction()
-    {
-        $this->view->setVars([
-            'text' => ['Beschwerde erstellen'],
-        ]);
-    }
+   
 
 }

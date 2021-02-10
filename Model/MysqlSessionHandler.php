@@ -1,9 +1,9 @@
 <?php
-namespace schoolyard\Model;
+namespace dokumentenFreigabe\Model;
 
-use schoolyard\Model\Db;
-use schoolyard\Model\Model;
-use schoolyard\Model\Session;
+use dokumentenFreigabe\Model\Db;
+use dokumentenFreigabe\Model\Model;
+use dokumentenFreigabe\Model\Session;
 use PDO;
 
 class MysqlSessionHandler extends Model
@@ -30,7 +30,7 @@ class MysqlSessionHandler extends Model
             session_start();
         }
         $password = $_SESSION['password'];
-        var_dump($password);
+       
 
         $model = new Model();
         $this->userId = $model->select('user_id')->from('user')
@@ -91,9 +91,7 @@ class MysqlSessionHandler extends Model
             $newId = $db->lastInsertId();
 
             $count = $stmt->rowCount();
-            echo '<br/><p>';
-
-            print("$count Session registered.\n <br/>");
+           
 
         } catch (PDOException $e) {
             echo "Ein Datenbankfehler ist aufgetreten", $e->getMessage();

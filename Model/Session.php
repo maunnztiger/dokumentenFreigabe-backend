@@ -1,5 +1,5 @@
 <?php
-namespace schoolyard\Model;
+namespace dokumentenFreigabe\Model;
 
 class Session
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace schoolyard\Model;
+namespace dokumentenFreigabe\Model;
 
-use schoolyard\Controller\command\CommandContext;
-use schoolyard\Controller\command\CommandFactory;
+use dokumentenFreigabe\Controller\command\CommandContext;
+use dokumentenFreigabe\Controller\command\CommandFactory;
 
 class Invoker extends \Exception
 {

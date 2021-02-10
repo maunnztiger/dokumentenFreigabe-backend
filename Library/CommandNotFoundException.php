@@ -1,5 +1,5 @@
 <?php
-namespace schoolyard\Library;
+namespace dokumentenFreigabe\Library;
 
 class CommandNotFoundException extends \Exception
 {

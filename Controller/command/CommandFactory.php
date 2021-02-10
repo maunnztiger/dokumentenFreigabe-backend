@@ -1,7 +1,7 @@
 <?php
-namespace schoolyard\Controller\command;
+namespace dokumentenFreigabe\Controller\command;
 
-use schoolyard\Library\CommandNotFoundException;
+use dokumentenFreigabe\Library\CommandNotFoundException;
 
 require_once 'autoload.php';
 
