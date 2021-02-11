@@ -15,7 +15,7 @@ class GetUserListCommand extends Command
             throw new NotFoundException("Users not found");
             return false;
         }
-
+      
         $context->addParam('userList', $userList);
         return true;
     }

@@ -424,7 +424,7 @@ class Model extends Db
      */
     public function set($spalte = array(), $value = array())
     {
-
+        $operator = '=';
         if ((null !== $spalte) && (null !== $value)) {
 
             $this->set = SQL_COMMAND_SET . ' ' . $this->prepare_data($spalte, $operator, $value);
@@ -444,6 +444,7 @@ class Model extends Db
     {
 
         $operator = '=';
+        $inhalt = "";
 
         if (!empty($spalte)) {
 
@@ -669,7 +670,7 @@ class Model extends Db
                         } else if (is_string($value[$i])) {
 
                             $stmt->bindParam($parameter[$i], $value[$i], PDO::PARAM_STR);
-                            var_dump($parameter[$i]);
+                          
                         } else if (is_numeric($value[$i])) {
 
                             $stmt->bindParam($parameter[$i], $value[$i], PDO::PARAM_STR);
