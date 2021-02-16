@@ -62,10 +62,10 @@ class AdminController
             $context->addParam('user-id', $_PUT['user-id']);
             $context->addParam('department', $_PUT['department']);
             $invoker->process();
-
+            header('HTTP/1.0 204 OK');
             $this->dataObj->setParam('updatedUser', $context->get('updatedUser'));
         }
-        header('HTTP/1.0 200 OK');
+      
         echo json_encode($this->dataObj->get('updatedUser'));
 
     }
@@ -80,7 +80,7 @@ class AdminController
             $context->addParam('action', 'deleteUser');
             $context->addParam('userName', $_GET['name']);
             $invoker->process();
-            header('HTTP/1.0 200 OK');
+            header('HTTP/1.0 204 OK');
         }
 
     }
