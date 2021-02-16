@@ -45,10 +45,9 @@ class Auth extends Model
             $password = $model->select('password')->from($this->tableNames)
                 ->where('name', ':name')
                 ->executeQuery(':name', $this->user)->as_object()->password;
-            
-           
+
             if (password_verify($this->pass, $password)) {
-                             
+
                 $this->saveSession($password);
             }
         }
@@ -81,11 +80,11 @@ class Auth extends Model
         $passwort = $this->session->getSessionName('password');
 
         if ($passwort !== $hashKey) {
-           
+
             $this->logout(true);
 
         }
-      
+
     }
 
     /*
@@ -121,7 +120,6 @@ class Auth extends Model
             ->where('user_id', ':userId')
             ->executeQuery(':userId', $this->userId)->as_object();
 
-    
         return $result;
     }
 
@@ -140,7 +138,7 @@ class Auth extends Model
             header('Location:' . $this->redirect);
 
         }
-     
+
         exit();
     }
 

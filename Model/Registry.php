@@ -2,14 +2,17 @@
 
 namespace dokumentenFreigabe\Model;
 
-class Registry {
+class Registry
+{
     private $param = array();
 
-    public function setParam($key, $value){
+    public function setParam($key, $value)
+    {
         $this->param[$key] = $value;
     }
 
-    public function get($key){
+    public function get($key)
+    {
         return $this->param[$key];
     }
 }
