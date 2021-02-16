@@ -22,7 +22,7 @@ class Auth extends Model
         $this->tableNames = array('user');
         $this->db = Db::getInstance();
         $this->session = new Session();
-        $this->redirect = 'http://localhost/dokumentenFreigabe/';
+        $this->redirect = 'http://localhost/dokumentenFreigabe-backend/';
         $this->sessionHandler = new MysqlSessionHandler();
         $this->user = $user;
         $this->pass = $pass;
@@ -140,7 +140,7 @@ class Auth extends Model
             header('Location:' . $this->redirect);
 
         }
-        echo 'Auth::redirect()';
+     
         exit();
     }
 

@@ -31,6 +31,7 @@ class FrontController implements FrontControllerInterface{
 
     public function parseUri(){
         $url = (isset($_GET['_url']) ? $_GET['_url'] : '');
+        //var_dump($_GET['_url']);
         $urlparts = explode('/', $url);
 
         $controllerName = (isset($urlparts[0]) && $urlparts[0] ? $urlparts[0] : 'index');

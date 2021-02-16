@@ -213,12 +213,11 @@ class Admin
   public function deleteUserData($name){
     $userID = $this->getUser($name)->user_id;
     $model = new Model();
-    if($model->delete()->from('user')->where('user_id', ':user_id')
-    ->executeQuery(':user_id', $userID)){
-      return $msg = "User deleted succesfully";
-    } else {
+    if(!($model->delete()->from('user')->where('user_id', ':user_id')
+    ->executeQuery(':user_id', $userID))){
       throw new \Exception('User could not be deleted!');
-    }
+    } 
+    return true;
    
 
     

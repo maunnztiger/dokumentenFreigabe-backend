@@ -4,7 +4,7 @@ namespace schoolyard\Controller;
 use schoolyard\Controller\ViewSetter;
 use schoolyard\Application;
 
-class TeacherController implements Viewsetter {
+class EmployeeController implements Viewsetter {
     protected $view;
     private $session;
 
@@ -17,7 +17,7 @@ class TeacherController implements Viewsetter {
         $this->view = $view;
     }
 
-    public function teacherViewAction()
+    public function employeeViewAction()
     {
         $this->view->setVars([
             'text' => ['Menu: Right click here'],
