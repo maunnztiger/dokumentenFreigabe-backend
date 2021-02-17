@@ -5,23 +5,19 @@ use schoolyard\Controller\ViewSetter;
 use schoolyard\Application;
 
 class CustomerController implements Viewsetter {
-    protected $view;
+    protected $dataObj;
     private $session;
 
     public function __construct(){
         $this->session = Application::getModel('Session');
+        $this->dataObj = $this->session->getSessionName('dataObj');
     }
 
-    public function setView(\schoolyard\Library\View $view)
-    {
-        $this->view = $view;
-    }
+    
 
     public function customerViewAction()
     {
-        $this->view->setVars([
-            'text' => ['Menu: Right click here'],
-        ]);
-
+        echo json_encode(['Menu: Right click here']);
+       
     }
 }

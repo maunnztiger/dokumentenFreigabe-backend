@@ -38,14 +38,14 @@ class AdminController
 
     public function getUserAction()
     {
-        if (isset($_POST['name']) && $this->dataObj->get('permission') == 'Admin') {
+        if (isset($_POST['name']) && $this->dataObj->get('permission') === 'Admin') {
 
-            echo json_encode($this->session->setSessionName('user', (Application::getModel('Admin'))->getUser($_POST['name'])));
+          $this->dataObj->setParam('user', (Application::getModel('Admin'))->getUser($_POST['name']));
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             header('HTTP/1.0 200 OK');
-            echo json_encode(array($this->session->getSessionName('user')));
+            echo json_encode(array($this->dataObj->get('user')));
         }
 
     }

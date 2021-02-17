@@ -197,7 +197,7 @@ class Admin
             ->where('name', ':name')
             ->executeQuery(':name', $username)->as_array();
 
-        var_dump($user);
+        
     }
 
     private function getGroupID($group)

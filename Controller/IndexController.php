@@ -8,17 +8,38 @@ class IndexController
 
     private $session;
     private $dataObj;
+    private $token = "3c28d89b80f70302b04fce2a1451f6ea";
+    
 
     public function __construct()
     {
         $this->session = Application::getModel('Session');
+
     }
 
     public function indexAction()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            echo json_encode(['Menu']);
+        
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])){
+
+            $this->session->setSessionName('token', $_POST['token']);
+            if(strcmp($this->token, $_POST['token']) !== 0){
+                http_response_code(403);
+                echo 'No Permission to access this server!';
+            } else{
+                header('HTTP/1.0 200 OK');
+                echo json_encode(true);
+                
+            }
         }
+        
+        if($_SERVER['REQUEST_METHOD'] == 'GET' && strcmp($this->token, $this->session->getSessionName('token')) === 0){
+                header('HTTP/1.0 200 OK');
+                echo json_encode(['Menu']);
+        } 
+       
+        
     }
 
     public function formularAction()
@@ -40,9 +61,8 @@ class IndexController
             $context->addParam('username', $_POST['user']);
             $context->addParam('password', $_POST['password']);
             $invoker->process();
-
             $this->dataObj = Application::getModel('Registry');
-            $this->session->setSessionName('dataObj', $this->dataObj);
+            $this->session->setSessionName('dataObj',  $this->dataObj);
             $this->dataObj->setParam('permission', $context->get('permission'));
             echo json_encode(strtolower($context->get('permission')));
         }
@@ -54,6 +74,8 @@ class IndexController
         $context = $invoker->getContext();
         $context->addParam('action', 'logout');
         $invoker->process();
+        header('HTTP/1.0 200 OK');
+        echo json_encode(true);
 
     }
 

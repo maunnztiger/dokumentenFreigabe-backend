@@ -101,7 +101,8 @@ class Auth extends Model
 
         $this->session->destroyCompleteSession();
 
-        $this->redirect($from);
+        //$this->redirect($from);
+        return true;
     }
 
     public function getUserGroup($pass)
