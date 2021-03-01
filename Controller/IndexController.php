@@ -24,7 +24,7 @@ class IndexController
             $headers = getallheaders();
 
             if (isset($headers["Authorization"]) && $headers["Authorization"] !== '') {
-                $this->session->setSessionName('token', $headers["Authorization"]);
+               
                 if (strcmp($this->token, $headers["Authorization"]) !== 0) {
                     http_response_code(403);
                     echo 'No Permission to access this server!';
