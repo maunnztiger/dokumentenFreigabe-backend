@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Customers>
+    <Customer>
+        <username>kikii</username>
+        <group>Employee</group>
+        <department>VoIP-Services</department>
+    </Customer>
+    <Customer>
+        <username>Vanni</username>
+        <group>Admin</group>
+        <department>Broad Band</department>
+    </Customer>
+    <Customer>
+        <username>Kylo</username>
+        <group>Customer</group>
+        <department>/</department>
+    </Customer>
+    <Customer>
+        <username>Admin</username>
+            <firstname>Igor</firstname>
+                <nickName>Maunnzinger</nickName>
+            <lastName>Westphal</lastName>
+        <group>Admin</group>
+        <department>/</department>
+    </Customer>
+    <Customer>
+        <username>Jule</username>
+        <group>Employee</group>
+        <department>VoIP-Services</department>
+    </Customer>
+</Customers>

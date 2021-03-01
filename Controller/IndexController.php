@@ -21,23 +21,34 @@ class IndexController
     {
         
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['token'])){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-            $this->session->setSessionName('token', $_POST['token']);
-            if(strcmp($this->token, $_POST['token']) !== 0){
+            $headers = getallheaders();
+        
+            if(isset($headers["Authorization"]) && $headers["Authorization"] !== ''){
+                $this->session->setSessionName('token', $headers["Authorization"]);
+                if(strcmp($this->token, $headers["Authorization"]) !== 0){
+                    http_response_code(403);
+                    echo 'No Permission to access this server!';
+                } else{
+                    header('HTTP/1.0 200 OK');
+                    echo json_encode(true);
+                    
+                }
+            } else {
+                var_dump($headers = getallheaders());
                 http_response_code(403);
                 echo 'No Permission to access this server!';
-            } else{
-                header('HTTP/1.0 200 OK');
-                echo json_encode(true);
-                
             }
+
+           
+        }
+
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+            echo json_encode(['Menu']);
         }
         
-        if($_SERVER['REQUEST_METHOD'] == 'GET' && strcmp($this->token, $this->session->getSessionName('token')) === 0){
-                header('HTTP/1.0 200 OK');
-                echo json_encode(['Menu']);
-        } 
+       
        
         
     }
