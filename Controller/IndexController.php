@@ -9,7 +9,6 @@ class IndexController
     private $session;
     private $dataObj;
     private $token = "3c28d89b80f70302b04fce2a1451f6ea";
-    
 
     public function __construct()
     {
@@ -19,21 +18,20 @@ class IndexController
 
     public function indexAction()
     {
-        
 
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $headers = getallheaders();
-        
-            if(isset($headers["Authorization"]) && $headers["Authorization"] !== ''){
+
+            if (isset($headers["Authorization"]) && $headers["Authorization"] !== '') {
                 $this->session->setSessionName('token', $headers["Authorization"]);
-                if(strcmp($this->token, $headers["Authorization"]) !== 0){
+                if (strcmp($this->token, $headers["Authorization"]) !== 0) {
                     http_response_code(403);
                     echo 'No Permission to access this server!';
-                } else{
+                } else {
                     header('HTTP/1.0 200 OK');
                     echo json_encode(['Menu']);
-                    
+
                 }
             } else {
                 var_dump($headers = getallheaders());
@@ -41,16 +39,8 @@ class IndexController
                 echo 'No Permission to access this server!';
             }
 
-           
         }
 
-        if($_SERVER['REQUEST_METHOD'] == 'GET'){
-           
-        }
-        
-       
-       
-        
     }
 
     public function formularAction()
@@ -73,7 +63,7 @@ class IndexController
             $context->addParam('password', $_POST['password']);
             $invoker->process();
             $this->dataObj = Application::getModel('Registry');
-            $this->session->setSessionName('dataObj',  $this->dataObj);
+            $this->session->setSessionName('dataObj', $this->dataObj);
             $this->dataObj->setParam('permission', $context->get('permission'));
             echo json_encode(strtolower($context->get('permission')));
         }
