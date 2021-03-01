@@ -32,7 +32,7 @@ class IndexController
                     echo 'No Permission to access this server!';
                 } else{
                     header('HTTP/1.0 200 OK');
-                    echo json_encode(true);
+                    echo json_encode(['Menu']);
                     
                 }
             } else {
@@ -45,7 +45,7 @@ class IndexController
         }
 
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
-            echo json_encode(['Menu']);
+           
         }
         
        
