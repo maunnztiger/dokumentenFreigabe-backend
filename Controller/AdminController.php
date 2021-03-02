@@ -85,7 +85,7 @@ class AdminController
 
     }
 
-    public function getXMLObjectAction(){
+    public function getXMLBinaryAction(){
         if($_SERVER['REQUEST_METHOD'] === 'GET'){
             
             $file = './data.xml';
@@ -97,6 +97,23 @@ class AdminController
                 header('Expires: 0');
                 header('Cache-Control: must-revalidate');
                 header('Pragma: public');
+                header('Content-Length: ' . filesize($file));
+                readfile($file);
+                exit;
+            } else {
+                echo json_encode('file not found');
+            }
+           
+        }
+    }
+
+    public function getPdfBinaryAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+            
+            $file = "C:\\xampp\\htdocs\\PDF_Files\\IHK_Zeugnis.pdf";
+
+            if (file_exists($file)) {
+                header('Content-Type: application/pdf');
                 header('Content-Length: ' . filesize($file));
                 readfile($file);
                 exit;
