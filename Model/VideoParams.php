@@ -1,8 +1,8 @@
 <?php
 
-namespace contentFreigabe\Model;
-use contentFreigabe\ffmpeg;
-use contentFreigabe\Model\Model;
+namespace dokumentenFreigabe\Model;
+use dokumentenFreigabe\ffmpeg;
+use dokumentenFreigabe\Model\Model;
 
 class VideoParams
 {

@@ -124,4 +124,39 @@ class AdminController
         }
     }
 
+    public function listVideoParamsAction(){
+
+    if($_SERVER['REQUEST_METHOD'] === 'GET'){
+        $invoker = Application::getModel('Invoker');
+        $context = $invoker->getContext();
+        $context->addParam('action', 'listVideoParams');
+        $invoker->process();
+
+        echo json_encode(array(
+            'videos' => $context->get('videoNames'),
+            'videoDurationTime' => $context->get('videoDurationTime'),
+            'plays' => $context->get('plays'),
+        ));
+    }
+       
+    }
+
+    public function playVideoAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $this->dataObj->setParam('videoName', $_POST['name']);
+        }      
+                
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') ==="BlackbookSessions"){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'playBlackbookVideo');
+            $invoker->process();
+        }        
+              
+            
+           
+        
+        
+    }
+
 }
