@@ -178,4 +178,25 @@ class AdminController
         
     }
 
+    public function changePermissionAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Admin'){
+            var_dump($_POST['userName']);
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'changePermission');
+            $context->addParam('userName', $_POST['userName']);
+            $invoker->process();
+            echo json_encode($context->get('bool'));
+        } 
+    }
+
+    public function getNonAdminUsersAction(){
+        if ($this->dataObj->get('permission') == 'Admin' &&
+        $_SERVER['REQUEST_METHOD'] == 'GET') {
+        $model = Application::getModel('Admin');
+        $userList = $model->getNonAdminUsers();
+        echo json_encode($userList);
+    }
+    }
+
 }

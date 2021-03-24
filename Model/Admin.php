@@ -3,7 +3,7 @@
 namespace dokumentenFreigabe\Model;
 
 use dokumentenFreigabe\Model\Model;
-
+use PDOException;
 class Admin
 {
 
@@ -225,6 +225,48 @@ class Admin
         }
         return true;
 
+    }
+
+    public function getNonAdminUsers(){
+        $result = $this->model->select(
+            array(
+                'name',
+             )
+        )->from(
+            array(
+                'user',
+            )
+        )->join('department')->on('department.department_id' ,'user.department_id_frk')
+        ->where('usergroup_id_fk', '!=', 1)
+         ->executeQuery()->as_array();
+        return $result;
+    }
+
+    public function changePermission($name){
+        $userID = $this->getUser($name)->user_id;
+        $model = new Model();
+        if($model->update('user')->set(
+            array(
+                'usergroup_id_fk',
+               ),
+            array(
+                ':group_id',
+                )
+        )->where('user_id', ':user_id')
+            ->executeQuery(
+                array(
+                    ':group_id',
+                    ':user_id',
+                ),
+                array(
+                    1,
+                    $userID,
+                )
+            )){
+                return true;
+            };
+
+            return false;
     }
 
 }

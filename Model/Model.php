@@ -281,6 +281,16 @@ class Model extends Db
 
         }
 
+        if ($operator == OPERATOR_NOT_EQUAL) {
+
+            $bedingung = $this->formatiereOperator($value);
+
+        } else {
+
+            $bedingung = $this->formatiereValue($value);
+
+        }
+
         if (empty($this->where)) {
 
             $this->where[] = SQL_STATEMENT_WHERE . ' ' . $this->backticks($spalte) . ' ' . $operator . ' ' . $bedingung;
