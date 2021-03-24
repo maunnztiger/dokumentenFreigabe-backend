@@ -17,8 +17,9 @@ class ListVideoParamsCommand extends Command
 
     public function execute(CommandContext $context): bool
     {
-        $object = Application::getModel('VideoParams');
-        $videoNames = $object->getVideoNames();
+        $object = Application::getModel('FileParams');
+    
+        $videoNames = $object->getFileNames($this->basePath);
         
         if (is_null($videoNames)) {
             throw new NotFoundException("Video-Names not found");

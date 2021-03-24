@@ -4,26 +4,26 @@ namespace dokumentenFreigabe\Model;
 use dokumentenFreigabe\ffmpeg;
 use dokumentenFreigabe\Model\Model;
 
-class VideoParams
+class FileParams
 {
 
-    private $videoNames;
+    private $fileNames;
     private $duration;
     private $increasedPlays;
     private $plays;
     private $screenshot;
 
-    public function getVideoNames()
+    public function getFileNames($path)
     {
-        $files = scandir("C:/xampp/htdocs/assets");
+        $files = scandir($path);
 
         foreach ($files as $key => $file) {
             if ($files[$key] !== "." && $files[$key] !== ".." && strpos($files[$key], '.jpg') === false) {
-                $this->videoNames[] = trim($files[$key], '.mp4');
+                $this->fileNames[] = trim($files[$key], '.mp4');
             }
         }
 
-        return $this->videoNames;
+        return $this->fileNames;
     }
      /**
      * 

@@ -86,7 +86,7 @@ class AdminController
     }
 
     public function getXMLBinaryAction(){
-        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('permission') == 'Admin'){
             
             $file = './data.xml';
 
@@ -107,26 +107,40 @@ class AdminController
         }
     }
 
-    public function getPdfBinaryAction(){
-        if($_SERVER['REQUEST_METHOD'] === 'GET'){
-            
-            $file = "C:\\xampp\\htdocs\\PDF_Files\\IHK_Zeugnis.pdf";
+    public function getPDFFileNamesAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('permission') === 'Admin'){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'getPDFFileNames');
+            $invoker->process();
 
-            if (file_exists($file)) {
+            $fileNames = $context->get('fileNames');
+            echo json_encode($fileNames);
+        }
+    }
+
+    public function getPdfBinaryAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Admin'){
+            
+            $this->dataObj->setParam('file', "C:\\xampp\\htdocs\\PDF_Files\\".$_POST['fileName']);
+           
+        }
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('permission') == 'Admin'){
+         
+            if (file_exists($this->dataObj->get('file'))) {
                 header('Content-Type: application/pdf');
-                header('Content-Length: ' . filesize($file));
-                readfile($file);
+                header('Content-Length: ' . filesize($this->dataObj->get('file')));
+                readfile($this->dataObj->get('file'));
                 exit;
             } else {
                 echo json_encode('file not found');
             }
-           
         }
     }
 
     public function listVideoParamsAction(){
 
-    if($_SERVER['REQUEST_METHOD'] === 'GET'){
+    if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('permission') == 'Admin'){
         $invoker = Application::getModel('Invoker');
         $context = $invoker->getContext();
         $context->addParam('action', 'listVideoParams');
@@ -142,18 +156,23 @@ class AdminController
     }
 
     public function playVideoAction(){
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Admin'){
             $this->dataObj->setParam('videoName', $_POST['name']);
         }      
                 
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') ==="BlackbookSessions"){
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Admin'){
             $invoker = Application::getModel('Invoker');
             $context = $invoker->getContext();
             $context->addParam('action', 'playBlackbookVideo');
             $invoker->process();
         }        
               
-            
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "Detroit"){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'playDetroitVideo');
+            $invoker->process();
+        }   
            
         
         

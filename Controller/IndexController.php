@@ -30,7 +30,7 @@ class IndexController
                     echo 'No Permission to access this server!';
                 } else {
                     header('HTTP/1.0 200 OK');
-                    echo json_encode(['Menu']);
+                    echo json_encode(['Login']);
 
                 }
             } else {
