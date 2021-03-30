@@ -80,4 +80,57 @@ class IndexController
 
     }
 
+    public function getPDFFileNamesAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'getPDFFileNames');
+            $invoker->process();
+
+            $fileNames = $context->get('fileNames');
+            echo json_encode($fileNames);
+        }
+    }
+
+    public function listVideoParamsAction(){
+
+        if($_SERVER['REQUEST_METHOD'] === 'GET'){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'listVideoParams');
+            $invoker->process();
+    
+            echo json_encode(array(
+                'videos' => $context->get('videoNames'),
+                'videoDurationTime' => $context->get('videoDurationTime'),
+                'plays' => $context->get('plays'),
+            ));
+        }
+           
+    }
+
+    public function playVideoAction(){
+            
+        $this->dataObj = $this->session->getSessionName('dataObj');
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $this->dataObj->setParam('videoName', $_POST['name']);
+        }      
+                
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Admin'){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'playBlackbookVideo');
+            $invoker->process();
+        } else {
+            echo json_encode('Keine Berechtigung');
+        }        
+                  
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "Detroit"){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'playDetroitVideo');
+            $invoker->process();
+        }   
+    }
+
 }

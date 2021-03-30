@@ -40,7 +40,7 @@ class Admin
 
     public function getUser($value)
     {
-
+        $model = new Model();
         $result = $this->model->select(
             array(
                 'user_id',
@@ -59,7 +59,7 @@ class Admin
             ->where('department_id', 'department_id_frk')
             ->where('name', ':name')
             ->executeQuery(':name', $value)->as_object();
-
+              
         return $result;
     }
 
@@ -242,29 +242,43 @@ class Admin
         return $result;
     }
 
-    public function changePermission($name){
-        $userID = $this->getUser($name)->user_id;
+    public function getVideoId($video){
         $model = new Model();
-        if($model->update('user')->set(
-            array(
-                'usergroup_id_fk',
-               ),
-            array(
-                ':group_id',
-                )
-        )->where('user_id', ':user_id')
-            ->executeQuery(
+        return $result = $model->select('video_id')->from('video')
+        ->where('video_name', ':video_name')
+         ->executeQuery(':video_name', $video)->as_object();
+    }
+
+    public function changePermission($name, $video){
+      
+   
+        $userID = $this->getUser($name)->user_id;
+        $videoID = $this->getVideoId($video)->video_id;
+        $model = new Model();
+        if($model->insert_into('videoPermissions')->set(
                 array(
-                    ':group_id',
-                    ':user_id',
+                    'user_id_frk',
+                    'video_id_frk',
                 ),
                 array(
-                    1,
-                    $userID,
+            
+                    ':user_id_fk',
+                    ':video_id_fk',
+                ))
+                ->executeQuery(
+                    array(
+                        
+                        ':user_id_fk',
+                        ':video_id_fk',
+                    ),
+                    array(
+                        $userID,
+                        $videoID,
+                    )
                 )
-            )){
+            ){
                 return true;
-            };
+            }
 
             return false;
     }

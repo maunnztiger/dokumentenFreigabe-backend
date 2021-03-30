@@ -11,6 +11,7 @@ use dokumentenFreigabe\Model\Videostream;
 class ChangePermissionCommand extends Command
 {
     private $userName = "";
+    private $videoName = "";
 
     
 
@@ -18,9 +19,10 @@ class ChangePermissionCommand extends Command
     {
         $object = Application::getModel('Admin');
         $this->userName = $context->get('userName');
-        $object->changePermission($this->userName);
+        $this->videoName = $context->get('videoName');
+      
         
-        if (!$object->changePermission($this->userName)) {
+        if (!$object->changePermission($this->userName,$this->videoName)) {
             throw new Exception("Permission could not be changed");
             return false;
         }
