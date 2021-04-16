@@ -145,12 +145,7 @@ class AdminController
             $this->dataObj->setParam('videoName', $_POST['name']);
         }      
                 
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Admin'){
-            $invoker = Application::getModel('Invoker');
-            $context = $invoker->getContext();
-            $context->addParam('action', 'playBlackbookVideo');
-            $invoker->process();
-        }        
+              
               
         if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "Detroit"){
             $invoker = Application::getModel('Invoker');
@@ -170,7 +165,9 @@ class AdminController
             $invoker->process();
             echo json_encode($context->get('bool'));
             
-        } 
+        } else {
+            echo json_encode('Keine Berechtigung');
+        }
     }
 
     public function getNonAdminUsersAction(){
@@ -178,6 +175,8 @@ class AdminController
             $model = Application::getModel('Admin');
             $userList = $model->getNonAdminUsers();
             echo json_encode($userList);
+        }else {
+            echo json_encode('Keine Berechtigung');
         }
     }
 

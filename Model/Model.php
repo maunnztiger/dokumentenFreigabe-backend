@@ -96,14 +96,13 @@ class Model extends Db
         if (empty($spalte)) {
 
             $this->count .= ' ' . SQL_COMMAND_COUNT . $this->
-                formatiereOperator('*') . ' AS num_users';
+                formatiereOperator('*');
         }
 
         if (is_string($spalte)) {
 
             $this->count .= ' ' . SQL_COMMAND_COUNT .
-            $this->formatiereOperator($spalte) .
-                ' AS num_users';
+            $this->formatiereOperator($spalte);
         }
 
         return $this;

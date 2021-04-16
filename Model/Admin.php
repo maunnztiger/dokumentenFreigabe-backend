@@ -283,4 +283,35 @@ class Admin
             return false;
     }
 
+    public function getVideoPermissions($user, $video){
+
+        
+        $userID = $this->getUser($user)->user_id;
+        $videoID = $this->getVideoId($video)->video_id;
+     
+        $model = new Model();
+
+        if(is_object($result = $model->select('user_video_id')->from('videopermissions')
+        ->where('video_id_frk', ':video_id_frk')
+        ->where('user_id_frk', ':user_id_frk')
+        ->executeQuery(
+            array(
+                
+                ':video_id_frk',
+                ':user_id_frk',
+                
+            ),
+            array(
+                $videoID,
+                $userID
+              
+            )
+        )->as_object())){
+            return $result->user_video_id;
+        } else {
+            return null;
+        }
+       
+    }
+
 }

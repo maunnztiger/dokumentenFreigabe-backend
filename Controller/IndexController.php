@@ -65,6 +65,7 @@ class IndexController
             $this->dataObj = Application::getModel('Registry');
             $this->session->setSessionName('dataObj', $this->dataObj);
             $this->dataObj->setParam('permission', $context->get('permission'));
+            $this->dataObj->setParam('userName', $_POST['user']);
             echo json_encode(strtolower($context->get('permission')));
         }
     }
@@ -116,13 +117,30 @@ class IndexController
             $this->dataObj->setParam('videoName', $_POST['name']);
         }      
                 
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Admin'){
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Admin' ){
             $invoker = Application::getModel('Invoker');
             $context = $invoker->getContext();
             $context->addParam('action', 'playBlackbookVideo');
             $invoker->process();
-        } else {
-            echo json_encode('Keine Berechtigung');
+        } 
+        
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Employee'){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'getVideoPermissions');
+            $context->addParam('videoName', $this->dataObj->get('videoName'));
+            $context->addParam('userName', $this->dataObj->get('userName'));
+            $invoker->process();
+            
+            $permissions = $context->get('permissions');
+            if(!is_null($permissions)){
+                $context->addParam('action', 'playBlackbookVideo');
+                $invoker->process();
+            } else {
+                echo 'Keine Berechtigung!';
+            }
+                
+            
         }        
                   
         if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "Detroit"){
