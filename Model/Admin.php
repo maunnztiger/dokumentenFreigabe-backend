@@ -349,14 +349,46 @@ class Admin
     }
 
     public function getPDFID($pdfName){
+        
+      
+        if(strpos($pdfName,'.pdf' ) !== false){
+            $pdf_db_entry = trim($pdfName, '.pdf');
+            $model = new Model();
+            $result = $model->select('pdf_id')->from('pdfs')
+            ->where('pdf_name', ':pdfName')
+            ->executeQuery(':pdfName', $pdf_db_entry)->as_object();
+        } 
         $model = new Model();
-        $pdf_db_entry = trim($pdfName, '.pdf');
-       
-
         $result = $model->select('pdf_id')->from('pdfs')
-        ->where('pdf_name', ':pdfName')
-        ->executeQuery(':pdfName', $pdf_db_entry)->as_object();
+        ->where('pdf_name', ':pdf_name')
+        ->executeQuery(':pdf_name', $pdfName)->as_object();
          return $result;
+    }
+
+    public function getPDFPermissions($user, $pdfName){
+        
+        $userID = $this->getUser($user)->user_id;
+        $pdfID = $this->getPDFID($pdfName)->pdf_id;
+     
+        $model = new Model();
+
+        if(is_object($result = $model->select('pdfPermissions_id')->from('pdfpermissions')
+        ->where('pdf_id_fk', ':pdf_id_fk')
+        ->where('user_id_fk', ':user_id_fk')
+        ->executeQuery(
+            array(
+                ':pdf_id_fk',
+                ':user_id_fk',
+                ),
+            array(
+                $pdfID,
+                $userID
+              )
+        )->as_object())){
+            return $result->pdfPermissions_id;
+        } else {
+            return null;
+        }
     }
 
 }

@@ -33,23 +33,7 @@ class EmployeeController implements Viewsetter {
         }
     }
 
-    public function playVideoAction(){
-        if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Employee'){
-            $this->dataObj->setParam('videoName', $_POST['name']);
-        }      
-                
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Admin'){
-            $invoker = Application::getModel('Invoker');
-            $context = $invoker->getContext();
-            $context->addParam('action', 'playBlackbookVideo');
-            $invoker->process();
-        }        
-              
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "Detroit"){
-            $invoker = Application::getModel('Invoker');
-            $context = $invoker->getContext();
-            $context->addParam('action', 'playDetroitVideo');
-            $invoker->process();
-        }   
-    }
+   
+
+   
 }

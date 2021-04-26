@@ -151,4 +151,39 @@ class IndexController
         }   
     }
 
+    public function getPdfBinaryAction(){
+       
+        $this->dataObj = $this->session->getSessionName('dataObj');
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $pdfName = trim($_POST['fileName'], '.pdf');
+            $this->dataObj->setParam('pdfName', $pdfName);
+            $this->dataObj->setParam('file', "C:\\xampp\\htdocs\\PDF_Files\\".$_POST['fileName']);
+        }
+
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('permission') == 'Employee'){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'getPDFPermissions');
+            $context->addParam('pdfName', $this->dataObj->get('pdfName'));
+            $context->addParam('userName', $this->dataObj->get('userName'));
+            $invoker->process();
+            
+            $permissions = $context->get('permissions');
+            if(!is_null($permissions)){
+                if (file_exists($this->dataObj->get('file'))) {
+                    header('Content-Type: application/pdf');
+                    header('Content-Length: ' . filesize($this->dataObj->get('file')));
+                    readfile($this->dataObj->get('file'));
+                    exit;
+                } else {
+                    echo json_encode('file not found');
+                }
+            } else {
+               echo 'Keine Berechtigung!';
+            }
+                
+            
+        }  
+    }
+
 }
