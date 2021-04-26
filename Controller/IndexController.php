@@ -137,7 +137,7 @@ class IndexController
                 $context->addParam('action', 'playBlackbookVideo');
                 $invoker->process();
             } else {
-                echo 'Keine Berechtigung!';
+               echo 'Keine Berechtigung!';
             }
                 
             

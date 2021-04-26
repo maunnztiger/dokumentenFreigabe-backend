@@ -119,6 +119,21 @@ class AdminController
         }
     }
 
+    public function setPDFPermissionAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Admin'){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'setPDFPermission');
+            $context->addParam('userName', $_POST['userName']);
+            $context->addParam('pdfName', $_POST['pdfName']);
+            $invoker->process();
+            echo json_encode($context->get('bool'));
+            
+        } else {
+            echo json_encode('Keine Berechtigung');
+        }
+    }
+
     public function getPdfBinaryAction(){
         if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Admin'){
             

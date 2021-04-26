@@ -314,4 +314,49 @@ class Admin
        
     }
 
+    public function setPDFPermission($userName,$pdfName){
+       $pdfID = $this->getPDFID($pdfName)->pdf_id;
+       $userID = $this->getUser($userName)->user_id;
+
+       $model = new Model();
+       if($model->insert_into('pdfpermissions')->set(
+        array(
+            'user_id_fk',
+            'pdf_id_fk',
+        ),
+        array(
+    
+            ':user_id_fk',
+            ':pdf_id_fk',
+        ))
+        ->executeQuery(
+            array(
+                
+                ':user_id_fk',
+                ':pdf_id_fk',
+            ),
+            array(
+                $userID,
+                $pdfID,
+            )
+        )
+    ){
+        return true;
+    }
+
+    return false;
+
+    }
+
+    public function getPDFID($pdfName){
+        $model = new Model();
+        $pdf_db_entry = trim($pdfName, '.pdf');
+       
+
+        $result = $model->select('pdf_id')->from('pdfs')
+        ->where('pdf_name', ':pdfName')
+        ->executeQuery(':pdfName', $pdf_db_entry)->as_object();
+         return $result;
+    }
+
 }
