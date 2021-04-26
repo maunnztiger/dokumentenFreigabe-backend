@@ -350,19 +350,22 @@ class Admin
 
     public function getPDFID($pdfName){
         
-      
         if(strpos($pdfName,'.pdf' ) !== false){
             $pdf_db_entry = trim($pdfName, '.pdf');
+            
             $model = new Model();
             $result = $model->select('pdf_id')->from('pdfs')
             ->where('pdf_name', ':pdfName')
             ->executeQuery(':pdfName', $pdf_db_entry)->as_object();
-        } 
-        $model = new Model();
-        $result = $model->select('pdf_id')->from('pdfs')
-        ->where('pdf_name', ':pdf_name')
-        ->executeQuery(':pdf_name', $pdfName)->as_object();
-         return $result;
+            return $result;
+        } else {
+            $model = new Model();
+            $result = $model->select('pdf_id')->from('pdfs')
+            ->where('pdf_name', ':pdf_name')
+            ->executeQuery(':pdf_name', $pdfName)->as_object();
+             return $result;
+        }
+       
     }
 
     public function getPDFPermissions($user, $pdfName){
