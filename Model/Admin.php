@@ -325,13 +325,11 @@ class Admin
             'pdf_id_fk',
         ),
         array(
-    
             ':user_id_fk',
             ':pdf_id_fk',
         ))
         ->executeQuery(
             array(
-                
                 ':user_id_fk',
                 ':pdf_id_fk',
             ),
