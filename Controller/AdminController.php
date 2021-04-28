@@ -195,4 +195,21 @@ class AdminController
         }
     }
 
+    public function deletePDFAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Admin'){
+            var_dump($_POST['pdfName']);
+            $file_pointer = "C:\\xampp\\htdocs\\PDF_Files\\".$_POST['pdfName'];
+            if(!unlink($file_pointer)){
+                echo ("$file_pointer cannot be deleted due to an error"); 
+            } 
+            else { 
+                echo ("$file_pointer has been deleted"); 
+            } 
+            
+            
+        } else {
+            echo 'Zugriff';
+        }
+    }
+
 }
