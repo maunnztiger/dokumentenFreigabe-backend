@@ -206,7 +206,13 @@ class IndexController
                 $uploadfile = $uploadDir . basename($_FILES['filename']['name']);
                 
                 if (move_uploaded_file($_FILES['filename']['tmp_name'], $uploadfile) !== false) {
-                    echo "File created (" . basename($uploadfile) . ")";
+                    $newFilename = trim($filename, '.pdf');
+                    $invoker = Application::getModel('Invoker');
+                    $context = $invoker->getContext();
+                    $context->addParam('action', 'addPDFToDatabase');
+                    $context->addParam('newPDFName', $newFilename);
+                    $invoker->process();
+                    echo $context->get('bool');
                 }  else {
                     echo "Cannot create file (" . basename($uploadfile) . ")";
                 }

@@ -392,4 +392,29 @@ class Admin
         }
     }
 
+    public function addPDFToDatabase($pdfName){
+         
+        $model = new Model();
+        if($model->insert_into('pdfs')->set(
+            array(
+             'pdf_name',
+            ),
+            array(
+             ':pdf_name',
+            ))
+            ->executeQuery(
+            array(
+             ':pdf_name',
+             ),
+            array(
+             $pdfName,
+            ))
+        ){
+         return true;
+        }
+ 
+        return false;
+ 
+    }
+
 }
