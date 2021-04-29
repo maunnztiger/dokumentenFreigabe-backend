@@ -5,7 +5,17 @@ Dieses Projekt ist das PHP-basierte Backend REST-API für eine Sicherheitsfreiga
 Die Parameter, die empfangen werden, werden  auf den jeweiligen HTTP-Request
 GET, POST, oder PUT oder DELETE geprüft. Sie entsprechen somit einer einfachen CRUD Anweisung ans Backend. Geprüft werden diese Requests in der adressierten Action im jeweiligen Controller, welcher vom Frontend über eine URL direkt adressiert wird.
 
-Beispiel: Um im Admin-Controller die Action getPDFBinary zu adressieren, wird hier einfach im Ajax-POST-Request die base-URL 'localhost/dokumentFreigabe-backend' mit der URL 'admin/getPDFBinary' ergänzt. Sodann bekommt man Zugriff auf alles, was bspw. über einen POST Request gesendet wurde, dann im $_POST['entsprechenderIndex'] in der adressierten Action.
+Beispiel: Um im Admin-Controller das ONbjekt
+
+var params {
+    pdfName : pdfName
+}
+
+an die Action getPDFBinary zu adressieren, wird hier einfach im Ajax-POST-Request die base-URL 'localhost/dokumentFreigabe-backend' mit der URL 'admin/getPDFBinary' ergänzt. Sodann bekommt man Zugriff auf das Objekt, was hier über einen POST Request gesendet wurde, dann im 
+
+$pdfname = isset($_POST['pdfName']);
+
+in der adressierten Action getPDFBinary.
 
 Die HTTP-Response erfolgt dann nach der Prüfung bestimmer Bedingungen und meistens, nach Ablauf eines Commands des im Backend implementierten Command Pattern. Das Command-Pattern regelt dann, wenn die Bedingung in einer Kontrollschleife erfolgreich geprüft und erfüllt wurde, "WAS" genau dann passieren soll. Somit lässt sich der Großteil der Geschäftslogik aus dem Controller in den entsprechenden Command verlagern, dern dann letztlich auf eine Model-Klasse zugreift.
 Teilweise wurde aus Zeitgründen auf die aufwendige Implementierung eines weiteren Commands verzichtet, sofern die Operation schon kurz im der Controller-Action ausgeführt werden kann.
