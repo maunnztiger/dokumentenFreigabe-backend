@@ -1,4 +1,4 @@
-Beschreibung
+# Beschreibung
 
 Dieses Projekt ist das PHP-basierte Backend REST-API für eine Sicherheitsfreigabe für Dokumenten- und Videocontent. Es werden in diesem Backend Schnittstellen definiert, die JSON-Objekte, XML- und PDF Dateien sowie Video-Streams zustandslos zum entsprechenden Frontend schicken.
 
@@ -24,7 +24,7 @@ in der adressierten Action getPDFBinary.
 Die HTTP-Response erfolgt dann nach der Prüfung bestimmer Bedingungen und meistens, nach Ablauf eines Commands des im Backend implementierten Command Pattern. Das Command-Pattern regelt dann, wenn die Bedingung in einer Kontrollschleife erfolgreich geprüft und erfüllt wurde, "WAS" genau dann passieren soll. Somit lässt sich der Großteil der Geschäftslogik aus dem Controller in den entsprechenden Command verlagern, dern dann letztlich auf eine Model-Klasse zugreift.
 Teilweise wurde aus Zeitgründen auf die aufwendige Implementierung eines weiteren Commands verzichtet, sofern die Operation schon kurz im der Controller-Action ausgeführt werden kann.
 
-Das Berechtigungs-system:
+# Das Berechtigungs-system:
 
 Diese Backend-Schnittstelle ist also eine einfach Model-Controller-Struktur, in der ein Command Pattern integriert wurde, um das Berechtigungs-System zu definieren. Die eigentliche Berechtigung wurzelt in der Zugehörigkeit zu einer bestimmten Benutzergruppe: Admin, Employee oder Customer. Diese werden beim Login aus der Datenbank ausgelesen und in einem Objekt gespeichert, damit diese für die jeweilige Session immer wieder ausgelesen werden kann. Je nach Zugehörigkeit zu einer bstimmten Gruppe können dann bestimmte Commands ausgelöst werden, oder eben nicht. 
 
@@ -32,7 +32,7 @@ Bei letzterem wird dann geprüft, ob für den jeweiligen angefragten Content ind
 
 Auf diese Weise wurde die Sicherheitsfreigabe für Video- und PDF-Content geregelt.
 
-Die Implementierung:
+# Die Implementierung:
 
 Zunächst müssen Sie Frontend und Backend in xammp/htdocs speichern. 
 Dann müssen sie den 
