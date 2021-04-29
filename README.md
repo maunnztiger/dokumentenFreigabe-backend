@@ -5,7 +5,7 @@ Dieses Projekt ist das PHP-basierte Backend REST-API für eine Sicherheitsfreiga
 Die Parameter, die empfangen werden, werden  auf den jeweiligen HTTP-Request
 GET, POST, oder PUT oder DELETE geprüft. Sie entsprechen somit einer einfachen CRUD Anweisung ans Backend. Geprüft werden diese Requests in der adressierten Action im jeweiligen Controller, welcher vom Frontend über eine URL direkt adressiert wird.
 
-Beispiel: Um im Admin-Controller das ONbjekt
+Beispiel: Um im Admin-Controller das Objekt
 {
     var params = {
         pdfName : pdfName
