@@ -64,8 +64,7 @@ Das hier verwendete Befehlsmuster habe ich so umgeschrieben, das eine Array-Prop
 
 Ein einfaches statisches Factory Pattern erzeugt ein Objekt der jeweiligen Command-Klasse und gleichzeitig ein Objekt der Command-Contextklasse:
 {
-    class CommandFactory
-{
+    class CommandFactory {
 
     private static $dir = 'command';
 
