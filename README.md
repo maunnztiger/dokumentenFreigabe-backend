@@ -103,8 +103,7 @@ Beispiel:
 
 Die Methode process prüft an dieser Stelle nur, ob das jeweilige Command ausführbar ist und den Boolschen Wert true oder false returned. Wird true returned, ist der Command erfolgreich durchgelaufen, andernfalls wird eine Exception ausgegeben und false returned: 
 {
-    public function process()
-    {
+    public function process() {
         $action = $this->context->get('action');
         $action = (is_null($action)) ? "default" : $action;
         $cmd = CommandFactory::getCommand($action);
