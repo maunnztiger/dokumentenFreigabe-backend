@@ -7,7 +7,7 @@ GET, POST, oder PUT oder DELETE geprüft. Sie entsprechen somit einer einfachen 
 
 Beispiel: Um im Admin-Controller das ONbjekt
 {
-    var params {
+    var params = {
         pdfName : pdfName
     }
 
@@ -35,7 +35,12 @@ Auf diese Weise wurde die Sicherheitsfreigabe für Video- und PDF-Content gerege
 Die Implementierung:
 
 Zunächst müssen Sie Frontend und Backend in xammp/htdocs speichern. 
-Dann müssen sie den mysql dump contentfreigabe.sql in ihr phpmyadmin importieren.
+Dann müssen sie den 
+{
+    mysql dump contentfreigabe.sql 
+}
+ 
+ in ihr phpmyadmin importieren.
 
 Sofern Sie content aufrufen wollen, müssen Sie diesen in einem entsprechenden Pfad anlegen und diesen Pfad in den entsprechenden Klassen noch anpassen, da die API speziell mit speziell meinem eigenem Content auf meinem Host auf Funktionalität getestet wurde.
 
