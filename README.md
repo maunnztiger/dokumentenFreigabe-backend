@@ -34,8 +34,9 @@ Auf diese Weise wurde die Sicherheitsfreigabe für Video- und PDF-Content gerege
 
 # Das Command Pattern:
 
-Das hier verwendete Befehlsmuster habe ich so umgeschrieben, das eine Array-Property einer Command-Contextklasse solange als Datenspeicher für alle Parameter dient, wie das jeweilige Command läuft:
- {
+Das hier verwendete Befehlsmuster habe ich so umgeschrieben, dass ich zuerst eine Data-Storage-Klasse geschrieben habe, die Klasse CommanContext:
+
+{
      class CommandContext {
 
         private $params = array();
@@ -59,10 +60,45 @@ Das hier verwendete Befehlsmuster habe ich so umgeschrieben, das eine Array-Prop
 
 }
 
+Diese Klasse hat eine Array-Property. Als key oder Index für diesen Value Speicher kann jedweder String dienen, somit auch der string 'action'. Wird ein String 'action'
+mit einem Value, also einem Command-Namen in diesem Array gesetzt, kann die eine andere Klasse, in diesem Fall der Invoker mit der Getter-Methode dieses Command auslesen und prüfen, ob dieses Command existiert und ob es auführbar ist:
 
+{
+    use dokumentenFreigabe\Controller\command\CommandContext;
+    use dokumentenFreigabe\Controller\command\CommandFactory;
 
+    class Invoker extends \Exception {
 
-Ein einfaches statisches Factory Pattern erzeugt ein Objekt der jeweiligen Command-Klasse und gleichzeitig ein Objekt der Command-Contextklasse:
+        private $context;
+
+        public function __construct() {
+            $this->context = new CommandContext();
+        }
+
+        public function getContext(): CommandContext {
+            return $this->context;
+        }
+
+        public function process() {
+            $action = $this->context->get('action');
+            $action = (is_null($action)) ? "default" : $action;
+            $cmd = CommandFactory::getCommand($action);
+
+            if (!$cmd->execute($this->context)) {
+                throw new \Exception("Command cannot been processed");
+                return false;
+            }
+
+        }   
+
+    }
+}
+
+Die Methode process prüft an dieser Stelle nur, ob das jeweilige Command ausführbar ist und den Boolschen Wert true oder false returned. Wird true returned, ist der Command erfolgreich durchgelaufen, andernfalls wird eine Exception ausgegeben und false returned: 
+
+Kann das Objekt die execute-Methode ausführen, so dass sie true returned, läuft der Command durch und es können in der Command-Klasse weitere Parameter in die Array-Property der Command-Context-Klasse geschrieben werden, die dann im jeweiligen Controller ausgelesen und deren Values ans Frontend gerouted werden können.
+
+Ein einfaches statisches Factory Pattern erzeugt woanders ein Objekt der jeweiligen Command-Klasse:
 {
     class CommandFactory {
 
@@ -86,9 +122,7 @@ Ein einfaches statisches Factory Pattern erzeugt ein Objekt der jeweiligen Comma
     }   
 }
 
-
-
-Die jeweilige Command-Klasse ist der Receiver, der Invoker tritt nur ein einziges Mal abstrahiert in als Model-Klasse auf und initiiert dann die aktuelle Command-Klasse, die vorher im Command-Context als Action im Context-Array gespeichert wurde: 
+Die jeweilige Command-Klasse ist der Receiver, der Invoker tritt nur ein einziges Mal als Model-Klasse auf und initiiert dann die aktuelle Command-Klasse, die vorher im Command-Context als Action im Context-Array gespeichert wurde: 
 
 Beispiel:
 {
@@ -98,21 +132,6 @@ Beispiel:
             $context->addParam('userName', $_POST['userName']);
             $context->addParam('videoName', $_POST['videoName']);
             $invoker->process();
-}
-
-Die Methode process prüft an dieser Stelle nur, ob das jeweilige Command ausführbar ist und den Boolschen Wert true oder false returned. Wird true returned, ist der Command erfolgreich durchgelaufen, andernfalls wird eine Exception ausgegeben und false returned: 
-{
-    public function process() {
-        $action = $this->context->get('action');
-        $action = (is_null($action)) ? "default" : $action;
-        $cmd = CommandFactory::getCommand($action);
-
-        if (!$cmd->execute($this->context)) {
-            throw new \Exception("Command cannot been processed");
-            return false;
-        }
-
-    }
 }
 
 Auf diese Weise ist das Command-Pattern sehr leicht zu skalieren und kann, einmal implementiert. mit relativ wenig Aufwand sehr einfach um entsprechende Commands erweitert werden, ohne das komplett einmal die gesamte Pattern-Struktur immer wieder neu geschrieben werden muss.
