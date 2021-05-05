@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 16. Feb 2021 um 08:55
+-- Erstellungszeit: 05. Mai 2021 um 12:03
 -- Server-Version: 10.1.37-MariaDB
 -- PHP-Version: 7.2.12
 
@@ -45,6 +45,29 @@ INSERT INTO `department` (`department_id`, `dep_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `pdfpermissions`
+--
+
+CREATE TABLE `pdfpermissions` (
+  `pdfPermissions_id` int(11) NOT NULL,
+  `pdf_id_fk` int(11) NOT NULL,
+  `user_id_fk` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `pdfs`
+--
+
+CREATE TABLE `pdfs` (
+  `pdf_id` int(11) NOT NULL,
+  `pdf_name` varchar(25) COLLATE utf8_german2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `php_session`
 --
 
@@ -59,7 +82,7 @@ CREATE TABLE `php_session` (
 --
 
 INSERT INTO `php_session` (`session_id`, `session_value`, `user_id_fk`) VALUES
-(6, '$2y$10$.uEQWiwV8gRWeGWxPtUS0.dRJoG7SboNkND9LQQWHKgpuUbjYpO5m', 1);
+(1, '$2y$10$.uEQWiwV8gRWeGWxPtUS0.dRJoG7SboNkND9LQQWHKgpuUbjYpO5m', 1);
 
 -- --------------------------------------------------------
 
@@ -85,8 +108,7 @@ INSERT INTO `user` (`user_id`, `name`, `password`, `usergroup_id_fk`, `departmen
 (4, 'jule', '$2y$10$LB185wb0XhcZnnmMeeWIoOExOupuDafHfgdxYHCGULcflbt6BegG6', 2, 2),
 (5, 'kylo', '$2y$10$TGj23T8Ru/BjB33Lfq5zXeWxHOObZDYtwIGQqi2B5JvZ.eZew7zvy', 3, NULL),
 (6, 'vanny', '$2y$10$er4woMAm3mvy52drtY5kZeSei2r5qVpL6belnm7J.IZMMpUM1Is4u', 1, 1),
-(8, 'majestic', '$2y$10$9aU0NeH.1.avb9sRKrwTQOnYQ.Az.1aI3HsfrgjW.al6dUCzvkmi2', 2, 2),
-(13, 'dummyuser', 'fakePasswdString', 2, 2);
+(8, 'majestic', '$2y$10$9aU0NeH.1.avb9sRKrwTQOnYQ.Az.1aI3HsfrgjW.al6dUCzvkmi2', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -117,16 +139,21 @@ INSERT INTO `usergroup` (`usergroup_id`, `groupname`) VALUES
 CREATE TABLE `video` (
   `video_id` int(11) NOT NULL,
   `video_name` varchar(50) COLLATE utf8_german2_ci NOT NULL,
+  `security-level` int(11) NOT NULL,
   `plays` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
+-- --------------------------------------------------------
+
 --
--- Daten für Tabelle `video`
+-- Tabellenstruktur für Tabelle `videopermissions`
 --
 
-INSERT INTO `video` (`video_id`, `video_name`, `plays`) VALUES
-(1, 'BlackbookSessions', 8),
-(2, 'Detroit', 11);
+CREATE TABLE `videopermissions` (
+  `user_video_id` int(11) NOT NULL,
+  `video_id_frk` int(11) NOT NULL,
+  `user_id_frk` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
 
 --
 -- Indizes der exportierten Tabellen
@@ -137,6 +164,20 @@ INSERT INTO `video` (`video_id`, `video_name`, `plays`) VALUES
 --
 ALTER TABLE `department`
   ADD PRIMARY KEY (`department_id`);
+
+--
+-- Indizes für die Tabelle `pdfpermissions`
+--
+ALTER TABLE `pdfpermissions`
+  ADD PRIMARY KEY (`pdfPermissions_id`),
+  ADD KEY `user_id_fkey` (`user_id_fk`),
+  ADD KEY `pdf_id_fk` (`pdf_id_fk`);
+
+--
+-- Indizes für die Tabelle `pdfs`
+--
+ALTER TABLE `pdfs`
+  ADD PRIMARY KEY (`pdf_id`);
 
 --
 -- Indizes für die Tabelle `php_session`
@@ -166,6 +207,14 @@ ALTER TABLE `video`
   ADD PRIMARY KEY (`video_id`);
 
 --
+-- Indizes für die Tabelle `videopermissions`
+--
+ALTER TABLE `videopermissions`
+  ADD PRIMARY KEY (`user_video_id`),
+  ADD KEY `user_id_frk` (`user_id_frk`),
+  ADD KEY `video_id_frk` (`video_id_frk`);
+
+--
 -- AUTO_INCREMENT für exportierte Tabellen
 --
 
@@ -176,16 +225,28 @@ ALTER TABLE `department`
   MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT für Tabelle `pdfpermissions`
+--
+ALTER TABLE `pdfpermissions`
+  MODIFY `pdfPermissions_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `pdfs`
+--
+ALTER TABLE `pdfs`
+  MODIFY `pdf_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT für Tabelle `php_session`
 --
 ALTER TABLE `php_session`
-  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `session_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT für Tabelle `usergroup`
@@ -197,11 +258,24 @@ ALTER TABLE `usergroup`
 -- AUTO_INCREMENT für Tabelle `video`
 --
 ALTER TABLE `video`
-  MODIFY `video_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `video_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `videopermissions`
+--
+ALTER TABLE `videopermissions`
+  MODIFY `user_video_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints der exportierten Tabellen
 --
+
+--
+-- Constraints der Tabelle `pdfpermissions`
+--
+ALTER TABLE `pdfpermissions`
+  ADD CONSTRAINT `pdf_id_fk` FOREIGN KEY (`pdf_id_fk`) REFERENCES `pdfs` (`pdf_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_id_fkey` FOREIGN KEY (`user_id_fk`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `php_session`
@@ -215,6 +289,13 @@ ALTER TABLE `php_session`
 ALTER TABLE `user`
   ADD CONSTRAINT `department_id_frk` FOREIGN KEY (`department_id_frk`) REFERENCES `department` (`department_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `usergroup_id_fk` FOREIGN KEY (`usergroup_id_fk`) REFERENCES `usergroup` (`usergroup_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `videopermissions`
+--
+ALTER TABLE `videopermissions`
+  ADD CONSTRAINT `user_id_frk` FOREIGN KEY (`user_id_frk`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `video_id_frk` FOREIGN KEY (`video_id_frk`) REFERENCES `video` (`video_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

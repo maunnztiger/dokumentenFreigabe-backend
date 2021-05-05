@@ -45,11 +45,13 @@ class FileParams
      
      public function getPlays($videoName){
         $model = new Model();
-        $this->plays = $model->select('plays')->from('video')
+        return(!empty($this->plays = $model->select('plays')->from('video')
         ->where('video_name', ':name')
-        ->executeQuery(':name', $videoName)->as_object()->plays;
+        ->executeQuery(':name', $videoName)->as_object()))?$this->plays = $model->select('plays')->from('video')
+        ->where('video_name', ':name')
+        ->executeQuery(':name', $videoName)->as_object()->plays:0;
      
-        return $this->plays;
+    
      }
 
      public function setPlays($videoName){

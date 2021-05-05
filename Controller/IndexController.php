@@ -100,14 +100,50 @@ class IndexController
             $context = $invoker->getContext();
             $context->addParam('action', 'listVideoParams');
             $invoker->process();
-    
-            echo json_encode(array(
-                'videos' => $context->get('videoNames'),
-                'videoDurationTime' => $context->get('videoDurationTime'),
-                'plays' => $context->get('plays'),
-            ));
+            if(!empty($context->get('videoNames'))){
+                echo json_encode(array(
+                    "videoNames" => $context->get('videoNames'),
+                    "videoDurationTime" => $context->get('videoDurationTime'),
+                    "plays" => $context->get('plays'),
+                ));
+            } else {
+                echo json_encode(array('data'=> 'no data loaded'));
+            }
+            
         }
            
+    }
+ 
+    public function uploadVideoAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_FILES["filename"])){
+           
+            var_dump($_FILES["filename"]);
+            $filename = $_FILES['filename']['name'];
+            if(isset($filename) && !empty($filename)){
+               
+                $uploadDir = "C:\\xampp\\htdocs\\assets\\";
+                $uploadfile = $uploadDir . basename($_FILES['filename']['name']);
+                
+                if (move_uploaded_file($_FILES['filename']['tmp_name'], $uploadfile) !== false) {
+                    $newFilename = trim($filename, '.mp4');
+                    /*$invoker = Application::getModel('Invoker');
+                    $context = $invoker->getContext();
+                    $context->addParam('action', 'addPDFToDatabase');
+                    $context->addParam('newPDFName', $newFilename);
+                    $invoker->process();*/
+                    echo true;
+                }  else {
+                    echo "Cannot create file (" . basename($uploadfile) . ")";
+                }
+
+               
+            } else{
+                echo 'please choose a file';
+            }
+        } else {
+            echo 'not set';
+        }
+        
     }
 
     public function playVideoAction(){

@@ -22,8 +22,8 @@ class ListVideoParamsCommand extends Command
         $videoNames = $object->getFileNames($this->basePath);
         
         if (is_null($videoNames)) {
-            throw new NotFoundException("Video-Names not found");
-            return false;
+            $context->addParam('videoNames', $videoNames);
+            return true;
         }
 
         $context->addParam('videoNames', $videoNames);
@@ -31,7 +31,7 @@ class ListVideoParamsCommand extends Command
         foreach ($videoNames as $value) {
             $filepath = $this->basePath.$value;
             $this->videoDurationTime[] = $object->getVideoDurationTime($filepath);
-            $this->plays[] = $object->getPlays($value);
+            $this->plays[] = ($object->getPlays($value) !== null) ? $object->getPlays($value):0;
            
             $context->addParam('videoDurationTime', $this->videoDurationTime);
             $context->addParam('plays', $this->plays);

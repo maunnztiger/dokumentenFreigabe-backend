@@ -93,6 +93,9 @@ class FrontController implements FrontControllerInterface{
             $controller = Application::getController($controllerName);
             $actionMethodName = $this->action;
             $controller->$actionMethodName();
+            //echo ini_get('post_max_size');
+       
+            
         }
     } catch (\dokumentenFreigabe\Library\NotFoundException $e) {
         http_response_code(404);
