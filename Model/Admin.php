@@ -417,4 +417,28 @@ class Admin
  
     }
 
+    public function addVideoNameToDatabase($videoName) {
+        $model = new Model();
+        if($model->insert_into('video')->set(
+            array(
+             'video_name',
+            ),
+            array(
+             ':video_name',
+            ))
+            ->executeQuery(
+            array(
+             ':video_name',
+             ),
+            array(
+             $videoName,
+            ))
+        ){
+         return true;
+        }
+ 
+        return false;
+ 
+    }
+
 }

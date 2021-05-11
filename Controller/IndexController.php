@@ -126,12 +126,12 @@ class IndexController
                 
                 if (move_uploaded_file($_FILES['filename']['tmp_name'], $uploadfile) !== false) {
                     $newFilename = trim($filename, '.mp4');
-                    /*$invoker = Application::getModel('Invoker');
+                    $invoker = Application::getModel('Invoker');
                     $context = $invoker->getContext();
-                    $context->addParam('action', 'addPDFToDatabase');
-                    $context->addParam('newPDFName', $newFilename);
-                    $invoker->process();*/
-                    echo true;
+                    $context->addParam('action', 'addVideoNameToDatabase');
+                    $context->addParam('newVideoName', $newFilename);
+                    $invoker->process();
+                    echo $context->get('bool');
                 }  else {
                     echo "Cannot create file (" . basename($uploadfile) . ")";
                 }
