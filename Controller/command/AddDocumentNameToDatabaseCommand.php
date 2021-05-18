@@ -7,10 +7,10 @@ use dokumentenFreigabe\Application;
 
 
 
-class AddPDFToDatabaseCommand extends Command
+class AddDocumentNameToDatabaseCommand extends Command
 {
   
-    private $newPDFName = "";
+    private $documentName = "";
 
     
 
@@ -18,10 +18,10 @@ class AddPDFToDatabaseCommand extends Command
     {
         $object = Application::getModel('Admin');
        
-        $this->newPDFName = $context->get('newPDFName');
+        $this->newPDFName = $context->get('documentName');
       
         
-        if (!$object->addPDFToDatabase($this->newPDFName)) {
+        if (!$object->addDocumentNameToDatabase($this->newPDFName)) {
             throw new NotFoundException("Entry could not be set to Database");
             return false;
         }

@@ -247,8 +247,36 @@ class IndexController
                     $newFilename = trim($filename, '.pdf');
                     $invoker = Application::getModel('Invoker');
                     $context = $invoker->getContext();
-                    $context->addParam('action', 'addPDFToDatabase');
+                    $context->addParam('action', 'addPDFNameToDatabase');
                     $context->addParam('newPDFName', $newFilename);
+                    $invoker->process();
+                    echo $context->get('bool');
+                }  else {
+                    echo "Cannot create file (" . basename($uploadfile) . ")";
+                }
+
+               
+            } else{
+                echo 'please choose a file';
+            }
+        } else {
+            echo 'not set';
+        }
+    }
+
+    public function uploadDocumentAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $filename = $_FILES['filename']['name'];
+            if(isset($filename) && !empty($filename)){
+               
+                $uploadDir = "C:\\xampp\\htdocs\\Docx_Files\\";
+                $uploadfile = $uploadDir . basename($_FILES['filename']['name']);
+                $newFilename = trim($filename, '.docx');
+                if (move_uploaded_file($_FILES['filename']['tmp_name'], $uploadfile) !== false) {
+                    $invoker = Application::getModel('Invoker');
+                    $context = $invoker->getContext();
+                    $context->addParam('action', 'addDocumentNameToDatabase');
+                    $context->addParam('documentName', $newFilename);
                     $invoker->process();
                     echo $context->get('bool');
                 }  else {

@@ -28,6 +28,8 @@ class GetWordDocumentsListCommand extends Command
             $context->addParam('fileNames', $fileNames);
             return true;
         }
-
+        return true;
     }
+
+
 }

@@ -4,6 +4,7 @@ namespace dokumentenFreigabe\Model;
 
 use dokumentenFreigabe\Model\Model;
 use PDOException;
+use PDO;
 class Admin
 {
 
@@ -439,6 +440,67 @@ class Admin
  
         return false;
  
+    }
+
+    public function addDocumentNameToDatabase($documentName) {
+        $model = new Model();
+        if($model->insert_into('document')->set(
+            array(
+                'document_name',
+            ),
+            array(
+                ':document_name',
+        ))
+        ->executeQuery(
+            array(
+                ':document_name',
+            ),
+            array(
+                $documentName,
+            )) 
+        ){
+            return true;
+        }
+        return false;
+    }
+
+    public function getDocumentID($docxName){
+      
+            $model = new Model();
+            $result = $model->select('document_id')->from('document')
+            ->where('document_name', ':docxName')
+            ->executeQuery(':docxName', $docxName)->as_object();
+             return $result;
+        
+    }
+   
+    public function removeFileNameFromDatabase($docxName){
+        
+        $document_id = $this->getDocumentID($docxName)->document_id;
+        
+        try {
+            $db = Db::getInstance();
+
+          
+            $sql = "DELETE FROM `document` 
+            WHERE `document`.`document_id` = :document_id";
+
+            $stmt = $db->prepare($sql);
+
+            if (!$stmt) {
+                echo "\nPDP::errorInfo()\n";
+            }
+
+            $stmt->bindParam(':document_id', $document_id, PDO::PARAM_INT);
+            $stmt->execute();
+            return true;
+
+        } catch (PDOException $e) {
+            echo "Ein Datenbankfehler ist aufgetreten", $e->getMessage();
+            return false;
+        }
+        
+       
     }
 
 }

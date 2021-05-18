@@ -197,7 +197,7 @@ class AdminController
 
     public function deletePDFAction(){
         if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Admin'){
-            var_dump($_POST['pdfName']);
+           
             $file_pointer = "C:\\xampp\\htdocs\\PDF_Files\\".$_POST['pdfName'];
             if(!unlink($file_pointer)){
                 echo ("$file_pointer cannot be deleted due to an error"); 
@@ -208,10 +208,31 @@ class AdminController
             
             
         } else {
-            echo 'Zugriff';
+            echo 'Zugriff verweigert';
         }
     }
 
-   
+    public function deleteDocumentAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Admin'){
+           
+            $file_pointer = "C:\\xampp\\htdocs\\Docx_Files\\".$_POST['docxName'].'.docx';
+            if(!unlink($file_pointer)){
+                echo ("$file_pointer cannot be deleted due to an error"); 
+
+            } 
+            else { 
+                $invoker = Application::getModel('Invoker');
+                $context = $invoker->getContext();
+                $context->addParam('action', 'removeFileNameFromDB');
+                $context->addParam('docxName', $_POST['docxName']);
+                $invoker->process();
+                echo ("$file_pointer has been deleted"); 
+            } 
+            
+            
+        } else {
+            echo 'Zugriff verweigert';
+        }
+    }
 
 }
