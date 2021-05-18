@@ -305,8 +305,8 @@ class IndexController
                         $contents = strip_tags($xmldata, '<w:p><w:u><w:i><w:b>');
                         $contents = preg_replace("/(<(\/?)w:(.)[^>]*>)\1*/", "<$2$3>", $contents);
 
-                        $dom = new DOMDocument;
-                        @$dom->loadHTML($contents, LIBXML_HTML_NOIMPLIED  | LIBXML_HTML_NODEFDTD);
+                        $dom = new DOMDocument('1.0', 'utf-8');
+                        @$dom->loadHTML('<?xml encoding="utf-8" ?>' .$contents, LIBXML_HTML_NOIMPLIED  | LIBXML_HTML_NODEFDTD);
                         $contents = $dom->saveHTML();
 
                         $contents = preg_replace('~<([ibu])>(?=(?:\s*<[ibu]>\s*)*?<\1>)|</([ibu])>(?=(?:\s*</[ibu]>\s*)*?</?\2>)|<p></p>~s', "", $contents);
