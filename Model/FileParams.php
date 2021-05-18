@@ -107,4 +107,19 @@ class FileParams
         
      }
 
+     public function getDocxFileNames($path){
+       
+        
+            $files = scandir($path);
+    
+            foreach ($files as $key => $file) {
+                if ($files[$key] !== "." && $files[$key] !== ".." && strpos($files[$key], '.jpg') === false) {
+                    $this->fileNames[] = trim($files[$key], '.docx');
+                }
+            }
+    
+            return $this->fileNames;
+        
+     }
+
 }
