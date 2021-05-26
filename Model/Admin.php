@@ -479,20 +479,10 @@ class Admin
         $document_id = $this->getDocumentID($docxName)->document_id;
         
         try {
-            $db = Db::getInstance();
-
-          
-            $sql = "DELETE FROM `document` 
-            WHERE `document`.`document_id` = :document_id";
-
-            $stmt = $db->prepare($sql);
-
-            if (!$stmt) {
-                echo "\nPDP::errorInfo()\n";
-            }
-
-            $stmt->bindParam(':document_id', $document_id, PDO::PARAM_INT);
-            $stmt->execute();
+            $model = new Model();
+            $result = $model->delete()->from('document')
+            ->where('document_id', ':doc_id')
+            ->executeQuery(':doc_id', $document_id);
             return true;
 
         } catch (PDOException $e) {
