@@ -57,7 +57,7 @@ class Admin
             )
         )
             ->where('usergroup_id', 'usergroup_id_fk')
-            ->where('department_id', 'department_id_frk')
+            //->where('department_id', 'department_id_frk')
             ->where('name', ':name')
             ->executeQuery(':name', $value)->as_object();
               
@@ -491,6 +491,66 @@ class Admin
         }
         
        
+    }
+
+    public function setDocxPermission($user, $docxName){
+        
+        $document_id = $this->getDocumentID($docxName)->document_id;
+        $userID = $this->getUser($user)->user_id;
+
+        $model = new Model();
+        if($model->insert_into('docxpermissions')->set(
+         array(
+             'user_id_frk',
+             'docx_id_fk',
+         ),
+         array(
+             ':user_id_frk',
+             ':docx_id_fk',
+         ))
+         ->executeQuery(
+             array(
+                 ':user_id_frk',
+                 ':docx_id_fk',
+             ),
+             array(
+                 $userID,
+                 $document_id,
+             )
+         )
+     ){
+         return true;
+     }
+ 
+     return false;
+
+    }
+
+
+    public function getDocxPermissions($user, $docxName){
+        
+        $userID = $this->getUser($user)->user_id;
+        $document_id = $this->getDocumentID($docxName)->document_id;
+     
+        $model = new Model();
+
+        if(is_object($result = $model->select('docx_id_fk')->from('docxpermissions')
+        ->where('docx_id_fk', ':docx_id_fk')
+        ->where('user_id_frk', ':user_id_fk')
+        ->executeQuery(
+            array(
+                ':docx_id_fk',
+                ':user_id_fk',
+                ),
+            array(
+                $document_id,
+                $userID
+              )
+        )->as_object())){
+            return $result->docx_id_fk;
+        } else {
+            return null;
+        }
     }
 
 }

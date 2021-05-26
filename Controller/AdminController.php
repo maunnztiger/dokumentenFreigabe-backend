@@ -235,4 +235,19 @@ class AdminController
         }
     }
 
+    public function setDocumentPermissionAction(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST' && $this->dataObj->get('permission') == 'Admin'){
+            $invoker = Application::getModel('Invoker');
+            $context = $invoker->getContext();
+            $context->addParam('action', 'setDocxPermission');
+            $context->addParam('userName', $_POST['userName']);
+            $context->addParam('docxName', $_POST['docxName']);
+            $invoker->process();
+            echo json_encode($context->get('bool'));
+            
+        } else {
+            echo json_encode('Keine Berechtigung');
+        }
+    }
+
 }
