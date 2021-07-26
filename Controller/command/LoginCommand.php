@@ -17,7 +17,7 @@ class LoginCommand extends Command
         $permission = $manager->getUserGroup($pass)->groupname;
         
         if (is_null($permission)) {
-            throw new NotFoundException("Licence not found");
+            throw new NotFoundException("Permission-Group could not be found");
             return false;
         }
 

@@ -5,7 +5,9 @@ use dokumentenFreigabe\Controller\command\Command;
 use dokumentenFreigabe\Library\NotFoundException;
 use dokumentenFreigabe\Application;
 
-class PlayDetroitVideoCommand extends Command
+
+
+class GetPDFBinaryCommand extends Command
 {
     public function execute(CommandContext $context): bool
     {
@@ -15,10 +17,10 @@ class PlayDetroitVideoCommand extends Command
             return false;
         }
 
-
        
-        $receiver = Application::getModel('DetroitVideo');
-        if ($receiver->displayVideo()) {
+       
+        $receiver = Application::getModel('PDFDisplay');
+        if ($receiver->displayPDF()) {
             
             return true;
         }
