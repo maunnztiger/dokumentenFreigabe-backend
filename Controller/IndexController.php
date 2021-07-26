@@ -55,19 +55,19 @@ class IndexController
     public function dispatchViewsAction()
     {
 
-        if (isset($_POST['user']) && isset($_POST['password']) &&
+        if (isset($_POST['userName']) && isset($_POST['password']) &&
             $_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $invoker = Application::getModel('Invoker');
             $context = $invoker->getContext();
             $context->addParam('action', 'login');
-            $context->addParam('username', $_POST['user']);
+            $context->addParam('username', $_POST['userName']);
             $context->addParam('password', $_POST['password']);
             $invoker->process();
             $this->dataObj = Application::getModel('Registry');
             $this->session->setSessionName('dataObj', $this->dataObj);
             $this->dataObj->setParam('permission', $context->get('permission'));
-            $this->dataObj->setParam('userName', $_POST['user']);
+            $this->dataObj->setParam('userName', $_POST['userName']);
             echo json_encode(strtolower($context->get('permission')));
         }
     }
