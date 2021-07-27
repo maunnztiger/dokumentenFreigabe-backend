@@ -3,7 +3,7 @@
  * Model Class
  */
 
-namespace dokumentenFreigabe\Model;
+namespace dokumentenFreigabe\DataLayer;
 
 use dokumentenFreigabe\Model\Db;
 use PDO;

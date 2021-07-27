@@ -1,6 +1,6 @@
 <?php
 
-namespace dokumentenFreigabe\Model;
+namespace dokumentenFreigabe\DataLayer;
 
 use PDO;
 

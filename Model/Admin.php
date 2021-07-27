@@ -17,29 +17,12 @@ class Admin
         $this->model = new Model();
     }
 
-    public function getUserParams()
+    public function find()
     {
-        $result = $this->model->select(
-            array(
-                'user_id',
-                'name',
-                'groupname',
-                'dep_name',
-            )
-        )->from(
-            array(
-                'user',
-                'usergroup',
-                'department')
-        )
-            ->where('usergroup_id', 'usergroup_id_fk')
-            ->where('department_id', 'department_id_frk')
-            ->executeQuery()->as_array();
-
-        return $result;
+        
     }
 
-    public function getUser($value)
+    public function findFirst($value)
     {
         $model = new Model();
         $result = $this->model->select(

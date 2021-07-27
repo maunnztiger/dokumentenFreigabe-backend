@@ -34,7 +34,9 @@ Auf diese Weise wurde die Sicherheitsfreigabe für Video- und PDF-Content gerege
 
 # Das Command Pattern:
 
-Das hier verwendete Befehlsmuster habe ich so umgeschrieben, dass ich zuerst eine Data-Storage-Klasse geschrieben habe, die Klasse CommanContext:
+Der Grund für die Entscheidung für das Command-Pattern lag in der einfachen Wartbarkeit der Business-Logik. Das Command-Pattern ist an sich sehr aufwendig zu implementieren und dies muss vorher gut überlegt werden, ob das Zeitfenster für das Projekt dies überhaupt zulässt. Einmal implementiert lässt es sich aber sehr leicht erweitern und warten und kann helfen, jeden einzelnen Use-Case gezielt anzupassen.
+
+Das hier verwendete Command-Pattern habe ich so umgeschrieben, dass ich zuerst eine Data-Storage-Klasse geschrieben habe, die Klasse CommanContext:
 
 {
      class CommandContext {
@@ -61,7 +63,7 @@ Das hier verwendete Befehlsmuster habe ich so umgeschrieben, dass ich zuerst ein
 }
 
 Diese Klasse hat eine Array-Property. Als key oder Index für diesen Value Speicher kann jedweder String dienen, somit auch der string 'action'. Wird ein String 'action'
-mit einem Value, also einem Command-Namen in diesem Array gesetzt, kann die eine andere Klasse, in diesem Fall der Invoker mit der Getter-Methode dieses Command auslesen und prüfen, ob dieses Command existiert und ob es auführbar ist:
+mit einem Value, also ein Command-Name in diesem Array gesetzt, kann eine andere Klasse, in diesem Fall der Invoker mit der Getter-Methode dieses Command auslesen und prüfen, ob dieses Command existiert und ob es auführbar ist:
 
 {
     use dokumentenFreigabe\Controller\command\CommandContext;
@@ -134,7 +136,7 @@ Beispiel:
             $invoker->process();
 }
 
-Auf diese Weise ist das Command-Pattern sehr leicht zu skalieren und kann, einmal implementiert. mit relativ wenig Aufwand sehr einfach um entsprechende Commands erweitert werden, ohne das komplett einmal die gesamte Pattern-Struktur immer wieder neu geschrieben werden muss.
+Auf diese Weise ist das Command-Pattern sehr leicht zu skalieren. 
 # Die Implementierung:
 
 Zunächst müssen Sie Frontend und Backend in xammp/htdocs speichern. 
