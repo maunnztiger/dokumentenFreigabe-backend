@@ -1,8 +1,8 @@
 <?php
 namespace dokumentenFreigabe\Model;
 
-use dokumentenFreigabe\Model\Db;
-use dokumentenFreigabe\Model\Model;
+use dokumentenFreigabe\DataLayer\Db;
+use dokumentenFreigabe\DataLayer\Model;
 use dokumentenFreigabe\Model\Session;
 use PDO;
 

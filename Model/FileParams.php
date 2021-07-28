@@ -2,7 +2,7 @@
 
 namespace dokumentenFreigabe\Model;
 use dokumentenFreigabe\ffmpeg;
-use dokumentenFreigabe\Model\Model;
+use dokumentenFreigabe\DataLayer\Model;
 
 class FileParams
 {

@@ -5,7 +5,7 @@
 
 namespace dokumentenFreigabe\DataLayer;
 
-use dokumentenFreigabe\Model\Db;
+use dokumentenFreigabe\DataLayer\Db;
 use PDO;
 
 @define(SQL_COMMAND_SELECT, 'SELECT');
