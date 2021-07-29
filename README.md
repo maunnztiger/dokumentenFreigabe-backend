@@ -137,28 +137,28 @@ Beispiel:
 }
 
 Auf diese Weise ist das Command-Pattern sehr leicht zu skalieren. 
-# Die Implementierung:
-
-Zunächst müssen Sie Frontend und Backend in xammp/htdocs speichern. 
-Dann müssen sie den 
-{
-    mysql dump contentfreigabe.sql 
-}
- 
- in ihr phpmyadmin importieren.
-
-Sofern Sie content aufrufen wollen, müssen Sie diesen in einem entsprechenden Pfad anlegen und diesen Pfad in den entsprechenden Klassen noch anpassen, da die API speziell mit speziell meinem eigenem Content auf meinem Host auf Funktionalität getestet wurde. 
-
-Wenn Sie Video-Content aufrufen wollen, müssen Sie noch ein Thumbnail von dem Video erstellen - das geht am besten mit ffmpeg und dieses in dem entsprechenden img-Folder speichern, damit das Video auch korrekt angezeigt wird. PHP braucht unter Umständen zu lange, um beim Laden der Page mit ffmpeg erst ein Thumbnail zu stellen und beim Lden der Page ans Frontend zu routen. Daher muss dies vorher passieren, was die Applikation natürlich sehr content-abhängig macht.
-
-Wenn Sie dies getan haben, können sie das Frontend mit 
-{
-    http://localhost/dokumentFreigabe-frontend 
-}
 
 
-aufrufen und müssten die Startseite mit dem Thumbnail von der Serie NCIS sehen.
+# Data-Layer
 
-Loggen Sie sich dann ein als admin:admin (Administrator) oder jule:jule (Employee), um die jeweilige Funktionalität zu testen.
+Ein zur Zeit kontrovers diskutierter Gegenstand im Software-Design ist es, die Model-View-Controller-Struktur um eine Schicht zu erweitern und die Datenmanipulations-Logik komplett aus dem Model-Layer herauszuholen und in eine Data-Layer Schicht, bspw. in ein Data-Mapper oder Active Record zu packen. Das ist nicht wirklich neu, jedoch wird die Diskussion in letzter Zeit dadurch verschärft, das Web-Applikationen immer mehr Datensätze aus Datensystemen lesen und an die GUI senden müssen: Freundeslisten und Likes bei social media, Wunschlisten und Bestellhistorien bei Onlineshops etc. pp. Dies macht es im Falle wachsender Software-Architekturen notwendig, geschuldet der notwendigen Wartbarkeit einer Apllikation, die Logik einer Datenbankmanipulation in ein Data-Layer so auszulagern, 
+dass der entsprechenden Klasse im Model, die bisher die Datenbank-Operation vorgenommen hat, nur noch Parameter übergeben werden und die eigentliche Operations-Logik im Quellcode dann woanders, nämlich Data-Layer stattfindet.
+Das hat einen ganz entscheidenden Vorteil, der genau wie beim Command-Pattern der größte Nachteil ist, sich aber an einer entscheidenden Frage orientiert:
 
-Viel Vergnügen!
+"Wie lange soll mit einer Software Geld verdient werden und wie einfacher muss die Wartbarkeit dieser Software sein im Gegensatz zum Aufwand der Implementierung?"
+
+Eine einfache Website ist schnell implementiert und kann ohne viel Aufwand automitisiert getestet werden. Eine längerfristige Apllikation indes, die eine längere Laufzeit und einen größeren Umfang hat, kann es sinnvoll sein, eine aufwendigere Implementierung und eine höhere Abstraktion der einzelnen Schichten einer einfachen Implementierung vorzuziehen. Das hat folgende Vorteile:
+    
+    - die Architektur ist schneller und einfacher zu warten
+    - sie ist einfacher zu skalieren
+    - sie ist langlebiger, was es dem Kunden ermöglicht, monetär mittel und    langfristig zu planen
+
+Die Nachteile liegen natürlich auf der Hand:
+    
+    - sie ist teurer, weil in der Implementierung aufwendiger
+    - unter hohem Zeitdruck entstanden ist sie anfälliger für Fehler und deshalb kritischer zu testen, was nicht immer möglich ist.
+    - sie stellt hohe Performance-Ansprüche und benötigt ggfs zusätzliche Last-Tests.
+
+Dennoch ist es sinnvoll, eine entsprechende Data-layer-Schicht zu implementieren, denn einmal implementiert, kann sie, wenn sie in clean code geschrieben ist, immer wieder neu verwendet werden. 
+
+Aktuell befindet sich die Daten-Manipulations-Schicht noch in der Entwicklung, erste Ansätze sind bereits vorhanden.
