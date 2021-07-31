@@ -268,6 +268,7 @@ class IndexController
     }
 
     public function uploadFileAction(){
+        $this->dataObj = $this->session->getSessionName('dataObj');
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $filename = $_FILES['filename']['name'];
             if(isset($filename) && !empty($filename)){
@@ -281,6 +282,11 @@ class IndexController
                     $context = $invoker->getContext();
                     $context->addParam('action', 'addPDFNameToDatabase');
                     $context->addParam('newPDFName', $newFilename);
+                    $invoker->process();
+                    $context = $invoker->getContext();
+                    $context->addParam('action', 'setPDFPermission');
+                    $context->addParam('userName', $this->dataObj->get('userName'));
+                    $context->addParam('pdfName', $newFilename);
                     $invoker->process();
                     echo $context->get('bool');
                 }  else {
@@ -297,6 +303,7 @@ class IndexController
     }
 
     public function uploadDocumentAction(){
+        $this->dataObj = $this->session->getSessionName('dataObj');
         if($_SERVER['REQUEST_METHOD'] === 'POST'){
             $filename = $_FILES['filename']['name'];
             if(isset($filename) && !empty($filename)){
@@ -309,6 +316,11 @@ class IndexController
                     $context = $invoker->getContext();
                     $context->addParam('action', 'addDocumentNameToDatabase');
                     $context->addParam('documentName', $newFilename);
+                    $invoker->process();
+                    $context = $invoker->getContext();
+                    $context->addParam('action', 'setDocxPermission');
+                    $context->addParam('userName', $this->dataObj->get('userName'));
+                    $context->addParam('docxName', $newFilename);
                     $invoker->process();
                     echo $context->get('bool');
                 }  else {

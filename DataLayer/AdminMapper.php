@@ -352,9 +352,11 @@ class AdminMapper
             return $result;
         } else {
             $model = new Model();
+            var_dump($pdfName);
             $result = $model->select('pdf_id')->from('pdfs')
             ->where('pdf_name', ':pdf_name')
             ->executeQuery(':pdf_name', $pdfName)->as_object();
+            var_dump($result);
              return $result;
         }
        
