@@ -1,14 +1,13 @@
 <?php
 
-namespace dokumentenFreigabe\Model;
+namespace dokumentenFreigabe\DataLayer;
 
 use dokumentenFreigabe\DataLayer\Db;
 use dokumentenFreigabe\DataLayer\Model;
 use dokumentenFreigabe\Model\MysqlSessionHandler;
 use dokumentenFreigabe\Model\Session;
-use dokumentenFreigabe\DataLayer\AuthMapper;
 
-class Auth 
+class AuthMapper extends Model
 {
 
     protected $table_names;
@@ -22,9 +21,6 @@ class Auth
     {
         $this->tableNames = array('user');
         $this->db = Db::getInstance();
-        $this->session = new Session();
-        $this->redirect = 'http://localhost/dokumentenFreigabe-backend/';
-        $this->sessionHandler = new MysqlSessionHandler();
         $this->user = $user;
         $this->pass = $pass;
 
@@ -35,22 +31,11 @@ class Auth
      * return void
      * @access private
      */
-    public function login()
-    {
-
-        if ($this->session->getSessionName('password')) {
-            $this->validateAuth();
-
-        } else {
-            $auth = new AuthMapper($this->user,$this->pass);
-            $password = $auth->login();
-
-            if (password_verify($this->pass, $password)) {
-
-                $this->saveSession($password);
-            }
-        }
-
+    public function login() {
+        $model = new Model();
+        return $password = $model->select('password')->from($this->tableNames)
+        ->where('name', ':name')
+        ->executeQuery(':name', $this->user)->as_object()->password;
     }
 
     /*
@@ -59,13 +44,7 @@ class Auth
      * @access protected
      */
 
-    protected function saveSession($password)
-    {
-        $this->session->setSessionName('login_hash', $password);
-        $this->session->setSessionName('password', $password);
-        $this->sessionHandler->saveSessionData($password);
-
-    }
+   
 
     /*
      * Bestaetigt, ob ein bestehender Login noch gueltig ist.
@@ -107,9 +86,19 @@ class Auth
     public function getUserGroup($pass)
     {
 
-        $auth = new AuthMapper($this->user,$this->pass);
-        $result = $auth->getUserGroup($pass);
-        
+        $model = new Model();
+        $this->userId = $model->select('user_id')
+            ->from('user')
+            ->where('name', ':name')
+            ->executeQuery(':name', $pass)->as_object()->user_id;
+
+        //var_dump($this->userId);
+        $model = new Model();
+        $result = $model->select('groupname')->from('usergroup')
+            ->join('user')->on('user.usergroup_id_fk', 'usergroup.usergroup_id')
+            ->where('user_id', ':userId')
+            ->executeQuery(':userId', $this->userId)->as_object();
+
         return $result;
     }
 
