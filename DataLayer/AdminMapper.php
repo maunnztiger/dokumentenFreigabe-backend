@@ -50,7 +50,6 @@ class AdminMapper
             )
         )
             ->where('usergroup_id', 'usergroup_id_fk')
-            //->where('department_id', 'department_id_frk')
             ->where('name', ':name')
             ->executeQuery(':name', $value)->as_object();
               
@@ -304,7 +303,7 @@ class AdminMapper
         )->as_object())){
             return $result->user_video_id;
         } else {
-            return null;
+            return false;
         }
        
     }
@@ -383,7 +382,7 @@ class AdminMapper
         )->as_object())){
             return $result->pdfPermissions_id;
         } else {
-            return null;
+            return false;
         }
     }
 
@@ -543,7 +542,7 @@ class AdminMapper
         )->as_object())){
             return $result->docx_id_fk;
         } else {
-            return null;
+            return false;
         }
     }
 
