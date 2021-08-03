@@ -155,14 +155,17 @@ class IndexController
             $this->dataObj->setParam('videoName', $_POST['name']);
         }      
                 
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Admin' ){
+        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('permission') == 'Admin' ){
+            
+            
             $invoker = Application::getModel('Invoker');
             $context = $invoker->getContext();
-            $context->addParam('action', 'playBlackbookVideo');
+            $context->addParam('action', 'playVideo');
+            $context->addParam('videoName', $this->dataObj->get('videoName'));
             $invoker->process();
         } 
         
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Employee'){
+        if($_SERVER['REQUEST_METHOD'] === 'GET'  && $this->dataObj->get('permission') == 'Employee'){
             $invoker = Application::getModel('Invoker');
             $context = $invoker->getContext();
             $context->addParam('action', 'getVideoPermissions');
@@ -172,14 +175,17 @@ class IndexController
             
             $permissions = $context->get('permissions');
             if(!is_null($permissions)){
-                $context->addParam('action', 'playBlackbookVideo');
+                $invoker = Application::getModel('Invoker');
+                $context = $invoker->getContext();
+                $context->addParam('action', 'playVideo');
+                $context->addParam('videoName', $this->dataObj->get('videoName'));
                 $invoker->process();
             } else {
                echo 'Keine Berechtigung!';
             }
         }
         
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "BlackbookSessions" && $this->dataObj->get('permission') == 'Customer'){
+        if($_SERVER['REQUEST_METHOD'] === 'GET'  && $this->dataObj->get('permission') == 'Customer'){
             $invoker = Application::getModel('Invoker');
             $context = $invoker->getContext();
             $context->addParam('action', 'getVideoPermissions');
@@ -189,7 +195,10 @@ class IndexController
                 
             $permissions = $context->get('permissions');
             if(!is_null($permissions)){
-                $context->addParam('action', 'playBlackbookVideo');
+                $invoker = Application::getModel('Invoker');
+                $context = $invoker->getContext();
+                $context->addParam('action', 'playVideo');
+                $context->addParam('videoName', $this->dataObj->get('videoName'));
                 $invoker->process();
             } else {
                 echo 'Keine Berechtigung!';
@@ -197,14 +206,7 @@ class IndexController
             
         }       
                   
-        if($_SERVER['REQUEST_METHOD'] === 'GET' && $this->dataObj->get('videoName') === "Detroit"){
-            $invoker = Application::getModel('Invoker');
-            $context = $invoker->getContext();
-            $context->addParam('action', 'playDetroitVideo');
-            $invoker->process();
-        } else {
-            echo 'Keine Berechtigung!';
-        }  
+       
     }
 
     public function getPdfBinaryAction(){

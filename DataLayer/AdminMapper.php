@@ -281,6 +281,7 @@ class AdminMapper
 
         
         $userID = $this->getUser($user)->user_id;
+        var_dump($video);
         $videoID = $this->getVideoId($video)->video_id;
      
         $model = new Model();

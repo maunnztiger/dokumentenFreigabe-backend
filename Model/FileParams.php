@@ -30,6 +30,7 @@ class FileParams
      */
     public function getVideoDurationTime($filepath){
        
+        //var_dump($filepath);
         $dur = shell_exec("ffmpeg -i ".$filepath.".mp4"." 2>&1");
       
         if(preg_match("/: Invalid /", $dur)){

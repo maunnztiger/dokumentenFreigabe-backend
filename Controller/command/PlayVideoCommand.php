@@ -8,7 +8,7 @@ use dokumentenFreigabe\Model\VideoNames;
 use dokumentenFreigabe\Model\Videostream;
 
 
-class PlayBlackbookVideoCommand extends Command
+class PlayVideoCommand extends Command
 {
     public function execute(CommandContext $context): bool
     {
@@ -19,9 +19,10 @@ class PlayBlackbookVideoCommand extends Command
         }
 
 
-       
-        $receiver = Application::getModel('BlackBookVideo');
-        if ($receiver->displayVideo()) {
+        $videoName = $context->get("videoName");
+      
+        $receiver = Application::getModel('Video');
+        if ($receiver->displayVideo($videoName)) {
             
             return true;
         }
