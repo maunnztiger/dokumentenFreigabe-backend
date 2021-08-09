@@ -2,15 +2,13 @@
 
 namespace dokumentenFreigabe\Model;
 use dokumentenFreigabe\ffmpeg;
-use dokumentenFreigabe\DataLayer\Model;
+use dokumentenFreigabe\DataLayer\AdminMapper;
 
 class FileParams
 {
 
     private $fileNames;
     private $duration;
-    private $increasedPlays;
-    private $plays;
     private $screenshot;
 
     public function getFileNames($path)
@@ -42,53 +40,20 @@ class FileParams
          }
          return $this->duration[1].":".$this->duration[2].":".$this->duration[3];
      }
-
      
      public function getPlays($videoName){
-        $model = new Model();
-        return(!empty($this->plays = $model->select('plays')->from('video')
-        ->where('video_name', ':name')
-        ->executeQuery(':name', $videoName)->as_object()))?$this->plays = $model->select('plays')->from('video')
-        ->where('video_name', ':name')
-        ->executeQuery(':name', $videoName)->as_object()->plays:0;
+        
+        return (new AdminMapper())->getPlays($videoName);
+     }
      
-    
-     }
-
-     public function setPlays($videoName){
-        $numberOfPlays = $this->getPlays($videoName);
-        if(is_int($numberOfPlays)){
-            $this->increasedPlays = $numberOfPlays+1;
-            var_dump($this->increasedPlays);
-        } else {
-            return false;
-        }
-     }
-
      public function savePlays($videoName){
-        $this->setPlays($videoName);
-            $model = new Model();
-            $model->update('video')->set(array(
-                'plays'
-            ),
-            array(
-                ':plays')
-            )->where('video_name', ':name')
-            ->executeQuery(
-                array(
-                ':plays',
-                ':name'
-                ),
-                array(
-                    $this->increasedPlays,
-                    $videoName
-                )
-            );
-          
-      
-        
-        
-     }
+        if((new AdminMapper())->savePlays($videoName)){
+            return true;
+        }
+        return false;
+    }
+
+    
 
      
 

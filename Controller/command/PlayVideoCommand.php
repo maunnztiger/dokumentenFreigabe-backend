@@ -22,8 +22,9 @@ class PlayVideoCommand extends Command
         $videoName = $context->get("videoName");
       
         $receiver = Application::getModel('Video');
+       
         if ($receiver->displayVideo($videoName)) {
-            
+         
             return true;
         }
 

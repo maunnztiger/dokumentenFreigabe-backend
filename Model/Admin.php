@@ -72,6 +72,8 @@ class Admin
 
     }
 
+   
+
     public function getPDFPermissions($user, $pdfName){
         if($pdfPermissions = (new AdminMapper())->getPDFPermissions($user, $pdfName)){
             return $pdfPermissions;

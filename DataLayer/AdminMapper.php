@@ -9,6 +9,8 @@ class AdminMapper
 {
 
     private $model;
+    private $increasedPlays;
+    private $plays;
 
     public function getUserParams(){
         
@@ -219,6 +221,66 @@ class AdminMapper
         return true;
 
     }
+
+    public function getVideoParams($videoName){
+        $model = new Model();
+        return $dept_id = $model->select(
+                array(
+                    'video_id',
+                    'plays',
+                ))->from('video')
+            ->where('video_name', ':video_name')
+            ->executeQuery(':video_name', $videoName)->as_object();
+    }
+
+    public function getPlays($videoName){
+        $model = new Model();
+        return(!empty($this->plays = $model->select('plays')->from('video')
+        ->where('video_name', ':name')
+        ->executeQuery(':name', $videoName)->as_object()))?$this->plays = $model->select('plays')->from('video')
+        ->where('video_name', ':name')
+        ->executeQuery(':name', $videoName)->as_object()->plays:0;
+    }
+
+     public function setPlays($videoName){
+        $numberOfPlays = $this->getPlays($videoName);
+      
+        if(is_int($numberOfPlays)){
+            $this->increasedPlays = $numberOfPlays+1;
+        } else {
+            return false;
+        }
+     }
+
+    
+
+     public function savePlays($videoName){
+        $this->setPlays($videoName);
+            $model = new Model();
+            if($model->update('video')->set(array(
+                'plays'
+            ),
+            array(
+                ':plays')
+            )->where('video_name', ':name')
+            ->executeQuery(
+                array(
+                ':plays',
+                ':name'
+                ),
+                array(
+                    $this->increasedPlays,
+                    $videoName
+                )
+            )){
+                return true;
+            }
+            return false;
+          
+      
+        
+        
+     }
 
     public function getNonAdminUsers(){
         $model = new Model();
